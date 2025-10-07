@@ -649,13 +649,13 @@ function arrangeHeaderPositions(){
   // Remove all, then re-insert in desired order
   nodes.forEach(n => wrap.removeChild(n));
 
-  if(isMobile){
-    // header-left, first card, header-right, rest of cards
-    wrap.appendChild(hLeft);
-    wrap.appendChild(cards[0]);
-    wrap.appendChild(hRight);
-    for(let i=1;i<cards.length;i++) wrap.appendChild(cards[i]);
-  }else{
+if(isMobile){
+  // header-left, header-right, then all cards
+  wrap.appendChild(hLeft);
+  wrap.appendChild(hRight);
+  cards.forEach(c => wrap.appendChild(c));
+}else{
+
     // header-left, header-right, then all cards
     wrap.appendChild(hLeft);
     wrap.appendChild(hRight);
