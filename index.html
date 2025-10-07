@@ -122,8 +122,25 @@
   .label{ font-weight:700; }
 
   .seek-actions{
-    margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;
+    margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;
   }
+/* Ensure space after details (whether clamped or not) */
+.details,
+.collapsible { 
+  margin-bottom: 14px;      /* minimum space before the button row */
+}
+
+/* Make the “See more” link also create space before buttons */
+.see-toggle { 
+  display: inline-block; 
+  margin: 8px 0 14px; 
+}
+
+/* Hard stop: add a top border + padding for the button row */
+.seek-actions { 
+  border-top: 1px solid #e5e7eb; 
+  padding-top: 12px; 
+}
 
   /* Inline referral form */
   .inline-form{
@@ -162,6 +179,46 @@
   .powered-by img{ height:calc(var(--badge-size) + 6px); width:auto; display:block; }
 
   .seek-title{ color: var(--muted); }
+/* Make each card stretch to the same height in a grid row */
+.cards { align-items: stretch; }
+.seek-card{
+  display:flex;           /* lets footer/buttons stick to bottom */
+  flex-direction:column;
+}
+
+/* Collapsible body: truncated by default */
+.collapsible{
+  --clamp-max: 180px;     /* <<< adjust how tall before “See more” appears */
+  position: relative;
+  max-height: var(--clamp-max);
+  overflow: hidden;
+  transition: max-height .25s ease;
+}
+
+/* Fade-out at bottom when clamped */
+.collapsible.clamped::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:0; height:48px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), #fff 60%);
+}
+
+/* The row of actions sticks to the bottom */
+.seek-actions{ margin-top:auto; }
+
+/* See more / See less link */
+.see-toggle{
+  display:inline-block;
+  margin-top:8px;
+  font-size:13px;
+  color:#374151;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+/* Mobile: we don’t equalize heights (one column) */
+@media (max-width: 900px){
+  .seek-card{ min-height: auto !important; }
+}
 
 </style>
 </head>
@@ -542,7 +599,7 @@ function buildHeaders(){
   hRight.className = "grid-head right";
   const btn = document.createElement("a");
   btn.className = "btn";
-  btn.href = "#"; // TODO: replace with the real submission page URL
+  btn.href = "https://kakatbarilea-prog.github.io/bni-seek-of-the-week-page/"; // TODO: replace with the real submission page URL
   btn.textContent = "Submit a Seek";
   hRight.appendChild(btn);
 
@@ -608,6 +665,83 @@ function arrangeHeaderPositions(){
 
 /* Init */
 renderAll();
+
+  /* ----- CLAMP LONG CARDS WITH "SEE MORE" ----- */
+function setupClamps(){
+  // Add clamping + toggle for each card's details block
+  $$(".seek-card .details").forEach(det => {
+    det.classList.add("collapsible");
+
+    // If content is taller than the clamp, show toggle
+    const needsClamp = det.scrollHeight > parseInt(getComputedStyle(det).getPropertyValue("--clamp-max"));
+    if(needsClamp){
+      det.classList.add("clamped");
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "see-toggle";
+      toggle.textContent = "… See more";
+      toggle.addEventListener("click", () => {
+        const isClamped = det.classList.toggle("clamped"); // toggles class
+        if(isClamped){
+          det.style.maxHeight = "";              // back to clamp var
+          toggle.textContent = "… See more";
+        }else{
+          det.style.maxHeight = det.scrollHeight + "px"; // expand
+          toggle.textContent = "See less";
+        }
+        // re-equalize row heights after expand/collapse
+        equalizeHeights();
+      });
+      det.after(toggle);
+    }
+  });
+}
+
+/* ----- EQUAL HEIGHTS PER GRID ROW (desktop/tablet) ----- */
+function equalizeHeights(){
+  const isMobile = window.matchMedia("(max-width: 900px)").matches;
+  if(isMobile){ 
+    // Let natural height on mobile
+    $$(".seek-card").forEach(c => c.style.minHeight = "");
+    return;
+  }
+
+  // Group cards by their top offset (each grid row)
+  const rows = new Map();
+  $$(".seek-card").forEach(card => {
+    card.style.minHeight = ""; // reset first
+    const top = Math.round(card.getBoundingClientRect().top);
+    if(!rows.has(top)) rows.set(top, []);
+    rows.get(top).push(card);
+  });
+
+  // For each row, set all cards to the tallest min-height
+  rows.forEach(cardsInRow => {
+    let max = 0;
+    cardsInRow.forEach(c => { max = Math.max(max, c.offsetHeight); });
+    cardsInRow.forEach(c => { c.style.minHeight = max + "px"; });
+  });
+}
+function renderAll(){
+  const wrap = $("#cards");
+  wrap.innerHTML = "";
+
+  const all = loadList();
+  const { hLeft, hRight } = buildHeaders();
+  wrap.appendChild(hLeft);
+  wrap.appendChild(hRight);
+  all.map(renderCard).forEach(el => wrap.appendChild(el));
+
+  arrangeHeaderPositions();
+  setupClamps();       // <— add this
+  equalizeHeights();   // <— and this
+
+  window.addEventListener("resize", () => {
+    arrangeHeaderPositions();
+    equalizeHeights(); // recompute on resize
+  });
+}
+
 </script>
 </body>
 </html>
