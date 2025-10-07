@@ -8,13 +8,13 @@
 <style>
   :root{
     --bni-red:#cf2030;            /* BNI red */
-    --container-w:1200px;         /* Page max width */
+    --container-w:1200px;         /* Max width for header brand row */
     --header-h:30px;              /* <<< Adjust HEADER HEIGHT here */
     --footer-h:30px;              /* <<< Adjust FOOTER HEIGHT here */
     --brand-logo-w:700px;         /* <<< Adjust BNI LOGO WIDTH here (height auto) */
-    --badge-opacity:0.6;          /* <<< Adjust Segwik badge TRANSPARENCY here (0–1) */
-    --badge-size:20px;            /* Base font size in badge */
-    --badge-gap:10px;             /* Spacing inside badge */
+    --badge-opacity:0.6;          /* <<< Segwik badge transparency (0–1) */
+    --badge-size:15px;
+    --badge-gap:10px;
     --ink:#1f2937;
     --muted:#6b7280;
     --line:#e5e7eb;
@@ -30,47 +30,64 @@
     color:var(--ink);
     background:var(--bg);
   }
-  .site{
-    max-width: var(--container-w);
-    margin: 0 auto;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
 
+  /* Frame */
+  .site{
+    width:100%;
+    margin:0 auto;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
   .topbar{ background:var(--bni-red); height:var(--header-h); }
   .brand-row{
+    width:min(100%, var(--container-w));
+    margin:0 auto;
     display:flex; align-items:center; gap:16px;
     padding:18px 20px; border-bottom:1px solid #eee;
   }
-  .brand-row .logo{ width:var(--brand-logo-w); height:auto; display:block; }
-
-  .content{ flex:1 0 auto; padding:20px; background:#fff; }
-
-  .title-row{
-    display:flex; align-items:center; justify-content:space-between; gap:16px;
-    margin:6px 0 18px;
+  .brand-row .logo{
+    width: clamp(200px, 50vw, var(--brand-logo-w));
+    max-width:100%; height:auto; display:block;
   }
-  .page-title{ margin:0; font-size:24px; font-weight:700; }
+
+  /* Content */
+  .content{
+    flex:1 0 auto;
+    padding: clamp(16px, 2vw, 32px);
+    background:#fff;
+  }
+
+  /* Cards layout — always two columns on desktop/tablet, one-by-one on mobile */
+  .cards{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    gap:16px;
+    align-items:start;
+  }
+  @media (max-width: 900px){
+    .cards{
+      grid-template-columns: 1fr; /* one-by-one for mobile ONLY */
+    }
+  }
+
+  /* “Header” cells that sit OUTSIDE the cards, above the first two positions */
+  .grid-head{
+    display:flex; align-items:center; justify-content:space-between;
+    min-height:40px;
+  }
+  .grid-head.left{ justify-content:flex-start; }
+  .grid-head.right{ justify-content:flex-end; }
+  .page-title{
+    margin:0; font-size:30px; font-weight:800;
+  }
   .btn{
     appearance:none; border:0; background:var(--bni-red); color:#fff;
     font-weight:700; padding:10px 14px; border-radius:8px; cursor:pointer;
     font-size:14px; text-decoration:none; white-space:nowrap; display:inline-block;
   }
-  .btn.secondary{
-    background:#f3f4f6; color:#111; border:1px solid var(--line);
-  }
 
-  /* Cards grid */
-  .cards{
-    display:grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap:16px;
-  }
-  @media (max-width: 900px){
-    .cards{ grid-template-columns: 1fr; }
-  }
-
+  /* Seek cards */
   .seek-card{
     position:relative;
     background:var(--card);
@@ -83,6 +100,9 @@
     display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
     margin-bottom:10px;
   }
+  .head-left{
+    display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  }
   .pill{
     display:inline-block; padding:6px 10px; border-radius:999px;
     font-size:12px; line-height:1; background:#f3f4f6; color:#111;
@@ -91,6 +111,7 @@
   .pill.red{
     background:#ffe6e9; color:#9a1027; border-color:#f2b7bf;
   }
+  .when{ color:var(--muted); font-size:12px; }
 
   .seek-title{
     margin:0 0 6px; font-size:16px; font-weight:700;
@@ -99,7 +120,6 @@
     display:grid; gap:4px; font-size:14px;
   }
   .label{ font-weight:700; }
-  .muted{ color:var(--muted); }
 
   .seek-actions{
     margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;
@@ -116,25 +136,20 @@
   .field{ margin-bottom:10px; }
   .field .label{ display:block; font-size:13px; margin-bottom:6px; }
   input[type="text"], input[type="email"], input[type="tel"], textarea, select{
-    width:100%;
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:10px 12px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size:14px;
-    outline:none;
+    width:100%; border:1px solid var(--line); border-radius:8px;
+    padding:10px 12px; font-size:14px; outline:none;
   }
   textarea{ min-height:90px; resize:vertical; }
-  .divider{
-    height:1px; background:#e5e7eb; margin:6px 0 10px;
-  }
+  .divider{ height:1px; background:#e5e7eb; margin:6px 0 10px; }
 
+  /* Footer */
   .footer{
     background:var(--bni-red); height:var(--footer-h);
     display:flex; align-items:center; justify-content:center; color:#fff; font-weight:600;
     letter-spacing:.3px;
   }
 
+  /* Sticky Segwik badge */
   .powered-by{
     position:fixed; right:18px; bottom:18px; z-index:9999;
     display:inline-flex; align-items:center; gap:var(--badge-gap);
@@ -145,6 +160,9 @@
   .powered-by:hover{ opacity:1; }
   .powered-by span{ font-size:var(--badge-size); line-height:1; color:#111827; white-space:nowrap; }
   .powered-by img{ height:calc(var(--badge-size) + 6px); width:auto; display:block; }
+
+  .seek-title{ color: var(--muted); }
+
 </style>
 </head>
 
@@ -157,13 +175,9 @@
     </div>
 
     <main class="content" role="main">
-      <div class="title-row">
-        <h1 class="page-title">Seek of the Week — Submissions</h1>
-        <a class="btn" href="#" id="goSubmit">Submit a Seek</a>
-      </div>
-
+      <!-- The grid contains two “header” cells followed by the cards -->
       <section class="cards" id="cards">
-        <!-- Cards will render here -->
+        <!-- JS will inject: header left (title), header right (button), then cards -->
       </section>
     </main>
 
@@ -180,90 +194,132 @@
 
 <script>
 /* ===== Demo + persistence ===== */
-const LIST_KEY = "bni_seek_requests_list_v1";
-/* Try to load anything saved from the Submit page (v4 key). These won't have referrals yet. */
-const SUBMIT_KEY = "bni_seeks_submit_only_v4";
-
-/* Four example cards across three scenarios (order randomized on load). */
-const demo = [
-  // Specific Person
-  {
-    id: "d1", type:"person", referrals:[
-      {id:"r1", name:"Casey Nguyen"},
-      {id:"r2", name:"Michael Ortiz"},
-    ],
-    personFirst:"Jordan", personLast:"Lee", personCompany:"Lee Home Inspections",
-    whatActions:"Warm email intro and include both parties.",
-    whatSay:"Jordan helped our buyers avoid a costly issue — worth a quick chat.",
-    notes:"Monmouth County homeowners preferred."
-  },
-  // Specific Company
-  {
-    id: "d2", type:"company", referrals:[
-      {id:"r3", name:"Alex Wu"},
-    ],
-    companyName:"Acme Builders LLC",
-    whatActions:"Intro via LinkedIn and share calendar link.",
-    whatSay:"Pete’s team can streamline subcontractor onboarding.",
-    notes:"Open to meeting on Fridays."
-  },
-  // Type of Person
-  {
-    id: "d3", type:"persona", referrals:[],
-    personaIndustry:"Real Estate", personaTitle:"Office Manager", personaSeniority:"Mid-Level",
-    whatActions:"Ask for a 15-minute discovery call.",
-    whatSay:"We reduce admin back-and-forth with a simple portal.",
-    notes:"Within 25 miles of Oakhurst."
-  },
-  // Another Specific Person
-  {
-    id: "d4", type:"person", referrals:[{id:"r4", name:"Sofia Patel"}],
-    personFirst:"Dana", personLast:"Kim", personCompany:"",
-    whatActions:"Make a group text intro.",
-    whatSay:"Dana is a trusted adviser for investment buyers.",
-    notes:"Best reached in afternoons."
-  }
-];
+const LIST_KEY = "bni_seek_requests_list_v2";
+/* Also pull from submit page if present */
+const SUBMIT_KEY = "bni_seeks_submit_only_v5";
 
 /* Utilities */
 const $ = (s, el=document) => el.querySelector(s);
 const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
 const uid = () => Math.random().toString(36).slice(2,9);
 
-function shuffle(arr){
-  const a = arr.slice();
-  for(let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
-  }
-  return a;
+/* Date helpers for “Today / Yesterday / Last Week / Last Month / MMM D, YYYY” */
+function startOfDay(ts){ const d = new Date(ts); d.setHours(0,0,0,0); return d.getTime(); }
+function prettyWhen(ts){
+  const now = new Date();
+  const t = new Date(ts);
+  const msInDay = 86400000;
+  const todayStart = startOfDay(now);
+  const targetStart = startOfDay(t);
+  const diffDays = Math.floor((todayStart - targetStart) / msInDay);
+
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
+  if (diffDays < 7) return "Last Week";
+  // “Last Month” ≈ within past 30 days but ≥ 7 days ago
+  if (diffDays < 30) return "Last Month";
+
+  const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return `${monthNames[t.getMonth()]} ${t.getDate()}, ${t.getFullYear()}`;
 }
 
+/* Seed demo with explicit dates: Today, Yesterday, Last Week, Last Month, and Older */
+const now = Date.now();
+const day = 86400000;
+const demo = [
+  // TODAY — Specific Person
+  {
+    id: "d1", type:"person",
+    createdAt: now - 2*60*60*1000, // 2 hours ago
+    referrals:[{id:"r1",name:"Casey Nguyen"},{id:"r2",name:"Michael Ortiz"}],
+    personFirst:"Jordan", personLast:"Lee", personCompany:"Lee Home Inspections",
+    whatActions:"Warm email intro and include both parties.",
+    whatSay:"Jordan helped our buyers avoid a costly issue — worth a quick chat.",
+    notes:"Monmouth County homeowners preferred."
+  },
+  // YESTERDAY — Specific Company
+  {
+    id: "d2", type:"company",
+    createdAt: now - 1*day - 3*60*60*1000, // yesterday
+    referrals:[{id:"r3",name:"Alex Wu"}],
+    companyName:"Acme Builders LLC",
+    whatActions:"Intro via LinkedIn and share calendar link.",
+    whatSay:"Pete’s team can streamline subcontractor onboarding.",
+    notes:"Open to meeting on Fridays."
+  },
+  // LAST WEEK — Type of Person
+  {
+    id: "d3", type:"persona",
+    createdAt: now - 7*day - 2*60*60*1000, // ~ last week
+    referrals:[],
+    personaIndustry:"Real Estate", personaTitle:"Office Manager", personaSeniority:"Mid-Level",
+    whatActions:"Ask for a 15-minute discovery call.",
+    whatSay:"We reduce admin back-and-forth with a simple portal.",
+    notes:"Within 25 miles of Oakhurst."
+  },
+  // LAST MONTH — Specific Person
+  {
+    id: "d4", type:"person",
+    createdAt: now - 20*day, // ~ last month bucket
+    referrals:[{id:"r4",name:"Sofia Patel"}],
+    personFirst:"Dana", personLast:"Kim", personCompany:"",
+    whatActions:"Make a group text intro.",
+    whatSay:"Dana is a trusted adviser for investment buyers.",
+    notes:"Best reached in afternoons."
+  },
+  // OLDER — Specific Company (explicit date: Jan 12, 2025)
+  {
+    id: "d5", type:"company",
+    createdAt: new Date("2025-01-12T10:00:00").getTime(),
+    referrals:[],
+    companyName:"Brightline Solar Inc.",
+    whatActions:"Share their ops contact; we’ll send a brief capabilities deck.",
+    whatSay:"Our team helped neighbors cut energy bills by 23%.",
+    notes:"Prefer Mon–Thu mornings."
+  },
+  // OLDER — Type of Person (explicit date)
+  {
+    id: "d6", type:"persona",
+    createdAt: new Date("2025-02-03T14:30:00").getTime(),
+    referrals:[{id:"r5",name:"Taylor Brooks"}],
+    personaIndustry:"Healthcare", personaTitle:"HR Director", personaSeniority:"Senior",
+    whatActions:"Ask for a quick intro call this week.",
+    whatSay:"We modernize benefits enrollment without extra cost.",
+    notes:"NJ/NY area ideal."
+  }
+];
+
+/* Persistence */
 function loadList(){
   const stored = localStorage.getItem(LIST_KEY);
   let list = stored ? JSON.parse(stored) : null;
 
-  // If no stored list, seed from demo mixed with any submissions from submit page
   if(!list){
+    // Merge any submissions from the submit page (no referrals by default)
     let fromSubmit = [];
     const raw = localStorage.getItem(SUBMIT_KEY);
     if(raw){
       try{
         const subs = JSON.parse(raw);
-        fromSubmit = subs.map(s => ({...s, referrals: s.referrals || []}));
+        fromSubmit = subs.map(s => ({
+          ...s,
+          referrals: s.referrals || [],
+          createdAt: s.createdAt || Date.now()
+        }));
       }catch(e){}
     }
-    list = shuffle(demo.concat(fromSubmit));
+    list = demo.concat(fromSubmit);
+    // Sort newest -> oldest
+    list.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
     localStorage.setItem(LIST_KEY, JSON.stringify(list));
+  } else {
+    list.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
   }
   return list;
 }
+function saveList(list){ localStorage.setItem(LIST_KEY, JSON.stringify(list)); }
 
-function saveList(list){
-  localStorage.setItem(LIST_KEY, JSON.stringify(list));
-}
-
-/* Rendering */
+/* Labels */
 function typeLabel(t){
   if(t==="person") return "Specific Person";
   if(t==="company") return "Specific Company";
@@ -275,32 +331,37 @@ function actionButtonText(t){
   return "I know someone";
 }
 function headingText(t){
-  const b = `<strong>${typeLabel(t)}</strong>`;
+  const b = `${typeLabel(t)}`;
   return `A member is looking for a ${b}`;
 }
 
+/* Card factory */
 function renderCard(req){
   const wrap = document.createElement("article");
   wrap.className = "seek-card";
   wrap.dataset.id = req.id;
 
-  // Header
   const head = document.createElement("div");
   head.className = "seek-head";
-  head.innerHTML = `
+  const left = document.createElement("div");
+  left.className = "head-left";
+  left.innerHTML = `
     <span class="pill">${typeLabel(req.type)}</span>
-    <span class="pill red" data-role="count">${(req.referrals || []).length} referral${(req.referrals||[]).length===1?'':'s'}</span>
+    <span class="when">${prettyWhen(req.createdAt || Date.now())}</span>
   `;
+  const right = document.createElement("div");
+  right.innerHTML = `
+    <span class="pill red" data-role="count">${(req.referrals||[]).length} referral${(req.referrals||[]).length===1?'':'s'}</span>
+  `;
+  head.appendChild(left);
+  head.appendChild(right);
 
-  // Title
   const title = document.createElement("h3");
   title.className = "seek-title";
   title.innerHTML = headingText(req.type);
 
-  // Details
   const det = document.createElement("div");
   det.className = "details";
-
   if(req.type === "person"){
     const full = [req.personFirst, req.personLast].filter(Boolean).join(" ");
     det.innerHTML = `
@@ -328,7 +389,6 @@ function renderCard(req){
     `;
   }
 
-  // Action button
   const actions = document.createElement("div");
   actions.className = "seek-actions";
   const actBtn = document.createElement("button");
@@ -336,10 +396,8 @@ function renderCard(req){
   actBtn.textContent = actionButtonText(req.type);
   actions.appendChild(actBtn);
 
-  // Inline form (created on demand)
   actBtn.addEventListener("click", () => toggleInlineForm(wrap, req));
 
-  // Assemble
   wrap.appendChild(head);
   wrap.appendChild(title);
   wrap.appendChild(det);
@@ -348,6 +406,7 @@ function renderCard(req){
   return wrap;
 }
 
+/* Inline referral form */
 function toggleInlineForm(card, req){
   let form = card.querySelector(".inline-form");
   if(form){ form.remove(); return; }
@@ -420,8 +479,8 @@ function toggleInlineForm(card, req){
     `}
 
     <div class="seek-actions">
-      <button class="btn" data-action="offer">Offer an Introduction</button>
-      <button class="btn secondary" data-action="cancel">Cancel</button>
+      <button class="btn" data-action="offer">Send Response</button>
+      <button class="btn" style="background:#f3f4f6; color:#111; border:1px solid var(--line);" data-action="cancel">Cancel</button>
     </div>
   `;
 
@@ -433,8 +492,6 @@ function toggleInlineForm(card, req){
 
   form.querySelector('[data-action="offer"]').addEventListener("click", () => {
     const val = (n) => (form.querySelector(`[data-f="${n}"]`)?.value || "").trim();
-
-    // Basic required: your name + (email or phone)
     const first = val("first"), last = val("last"), email = val("email"), phone = val("phone");
     if(!first || !last){ alert("Please provide your first and last name."); return; }
     if(!email && !phone){ alert("Please provide your email or phone."); return; }
@@ -455,7 +512,7 @@ function toggleInlineForm(card, req){
     addReferralTo(req.id, referral);
     form.remove();
 
-    // Update count UI
+    // Update count bubble
     const countEl = card.querySelector('[data-role="count"]');
     const list = getAll();
     const found = list.find(x => x.id === req.id);
@@ -466,15 +523,6 @@ function toggleInlineForm(card, req){
 
 /* Data ops */
 function getAll(){ return JSON.parse(localStorage.getItem(LIST_KEY) || "[]"); }
-function renderAll(){
-  const cardsWrap = $("#cards");
-  cardsWrap.innerHTML = "";
-  const all = getAll();
-  all.forEach(req => {
-    if(!req.referrals) req.referrals = [];
-    cardsWrap.appendChild(renderCard(req));
-  });
-}
 function addReferralTo(reqId, referral){
   const all = getAll();
   const idx = all.findIndex(r => r.id === reqId);
@@ -484,18 +532,82 @@ function addReferralTo(reqId, referral){
   saveList(all);
 }
 
-/* Init */
-(function init(){
-  loadList();  // seeds if empty
-  renderAll();
+/* Build header cells and arrange positions for desktop vs mobile */
+function buildHeaders(){
+  const hLeft = document.createElement("div");
+  hLeft.className = "grid-head left";
+  hLeft.innerHTML = `<h1 class="page-title">Seek of the Week — Submissions</h1>`;
 
-  // Hook "Submit a Seek" button to your create page when ready
-  $("#goSubmit").addEventListener("click", (e) => {
-    e.preventDefault();
-    // Replace with actual URL to the Submit page
-    alert("Hook this to your Seek submission page URL.");
-  });
-})();
+  const hRight = document.createElement("div");
+  hRight.className = "grid-head right";
+  const btn = document.createElement("a");
+  btn.className = "btn";
+  btn.href = "#"; // TODO: replace with the real submission page URL
+  btn.textContent = "Submit a Seek";
+  hRight.appendChild(btn);
+
+  return { hLeft, hRight };
+}
+
+/* Render all cards and place headers as requested */
+function renderAll(){
+  const wrap = $("#cards");
+  wrap.innerHTML = "";
+
+  // Build and insert cards sorted newest -> oldest
+  const all = loadList();
+
+  // Create header nodes
+  const { hLeft, hRight } = buildHeaders();
+
+  // Desktop-first order: [header-left, header-right, card0, card1, card2...]
+  wrap.appendChild(hLeft);
+  wrap.appendChild(hRight);
+
+  const cardEls = all.map(renderCard);
+  cardEls.forEach(el => wrap.appendChild(el));
+
+  // Then adjust for mobile so that the button appears above the 2nd card:
+  arrangeHeaderPositions();
+
+  // Listen to resize to re-arrange
+  window.addEventListener("resize", arrangeHeaderPositions);
+}
+
+/* Ensure:
+   - Desktop/tablet (>=901px): [header-left | header-right] on first row above first two cards
+   - Mobile (<=900px): cards are one-by-one; order becomes: header-left, card0, header-right, card1, card2...
+*/
+function arrangeHeaderPositions(){
+  const wrap = $("#cards");
+  const isMobile = window.matchMedia("(max-width: 900px)").matches;
+
+  const nodes = Array.from(wrap.children);
+  const hLeft = nodes.find(n => n.classList.contains("left"));
+  const hRight = nodes.find(n => n.classList.contains("right"));
+  const cards = nodes.filter(n => n.classList.contains("seek-card"));
+
+  if(!hLeft || !hRight || cards.length === 0) return;
+
+  // Remove all, then re-insert in desired order
+  nodes.forEach(n => wrap.removeChild(n));
+
+  if(isMobile){
+    // header-left, first card, header-right, rest of cards
+    wrap.appendChild(hLeft);
+    wrap.appendChild(cards[0]);
+    wrap.appendChild(hRight);
+    for(let i=1;i<cards.length;i++) wrap.appendChild(cards[i]);
+  }else{
+    // header-left, header-right, then all cards
+    wrap.appendChild(hLeft);
+    wrap.appendChild(hRight);
+    cards.forEach(c => wrap.appendChild(c));
+  }
+}
+
+/* Init */
+renderAll();
 </script>
 </body>
 </html>
