@@ -1,594 +1,1457 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>BNI — Seek of the Week Submissions</title>
+<header class="rs-header" role="banner">
+  <div class="rs-header__inner">
+
+    <!-- Brand / Logo -->
+    <a class="rs-brand" href="https://kakatbarilea-prog.github.io/bni-homepage/" aria-label="BNI Rock Solid Referrals - Home">
+      <img
+        class="rs-brand__logo"
+        src="https://d34hmiuaex7c0.cloudfront.net/6568/uploads/cmaspages/gallery/galleryitem_1759854726598.png"
+        alt="BNI Rock Solid Referrals"
+      />
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="rs-nav" aria-label="Primary navigation">
+      <a class="rs-nav__link is-active" href="https://kakatbarilea-prog.github.io/bni-homepage/">Home</a>
+
+      <!-- Dropdown (CSS-only) -->
+      <div class="rs-nav__dropdown">
+        <a class="rs-nav__link rs-nav__dropbtn" href="#" aria-haspopup="true" aria-expanded="false">
+          Chapter Members
+        </a>
+
+        <div class="rs-nav__menu" role="menu" aria-label="Chapter Members">
+          <a role="menuitem" href="https://kakatbarilea-prog.github.io/bni-chamber-members-directory/">Directory</a>
+          <a role="menuitem" href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-submissions/">Seeks of the Week</a>
+        </div>
+      </div>
+
+      <a class="rs-nav__link" href="#">Meetings &amp; Events</a>
+      <a class="rs-nav__link" href="#">Gallery</a>
+    </nav>
+
+    <!-- Right -->
+    <div class="rs-actions">
+      <a class="rs-btn rs-btn--primary rs-desktopOnly" href="#">Member Log-in</a>
+
+      <!-- Mobile menu button (JS toggles panel) -->
+      <button class="rs-iconbtn" id="rsMenuBtn" type="button" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 6h16a1 1 0 1 0 0-2H4a1 1 0 1 0 0 2Zm16 7H4a1 1 0 0 0 0 2h16a1 1 0 1 0 0-2Zm0 7H4a1 1 0 0 0 0 2h16a1 1 0 1 0 0-2Z"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Mobile Panel -->
+  <div class="rs-mobile" id="rsMobilePanel" hidden>
+    <div class="rs-mobile__inner">
+      <a href="https://kakatbarilea-prog.github.io/bni-homepage/" class="rs-mobile__link">Home</a>
+      <a href="https://kakatbarilea-prog.github.io/bni-chamber-members-directory/" class="rs-mobile__link">Chapter Members — Directory</a>
+      <a href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-submissions/" class="rs-mobile__link">Chapter Members — Seeks of the Week</a>
+      <a href="#" class="rs-mobile__link">Meetings &amp; Events</a>
+      <a href="#" class="rs-mobile__link">Gallery</a>
+
+      <div class="rs-mobile__cta">
+        <a class="rs-btn rs-btn--primary rs-btn--block" href="#">Member Log-in</a>
+      </div>
+    </div>
+  </div>
+</header>
 
 <style>
-  :root{
-    --bni-red:#cf2030;
-    --container-w:1200px;
-    --header-h:30px;
-    --footer-h:30px;
-    --brand-logo-w:400px;
-    --badge-opacity:0.6;
-    --badge-size:15px;
-    --badge-gap:10px;
-    --ink:#1f2937;
-    --muted:#6b7280;
-    --line:#e5e7eb;
-    --card:#ffffff;
-    --bg:#ffffff;
-    --radius:12px;
+  /* -------- HEADER ONLY VARIABLES (scoped) -------- */
+  .rs-header{
+    --rs-red:#CF2030;
+    --rs-ink:#111827;
+    --rs-line:#E5E7EB;
+    --rs-bg: rgba(255,255,255,.92);
+    --rs-shadow: 0 10px 26px rgba(0,0,0,.10);
+    --rs-h: 78px;
   }
 
-  *{ box-sizing:border-box; }
-  body{
-    margin:0;
+  /* Scope all typography + box sizing to header only */
+  .rs-header, .rs-header *{
     font-family: Arial, Helvetica, sans-serif;
-    color:var(--ink);
-    background:var(--bg);
+    box-sizing:border-box;
   }
 
-  /* Frame */
-  .site{
+  .rs-header{
+    position:sticky; top:0; z-index:999;
     width:100%;
-    margin:0 auto;
-    min-height:100vh;
+    background: var(--rs-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(229,231,235,.95);
+  }
+
+  .rs-header__inner{
+    width:100%;
+    height:var(--rs-h);
+    padding:0 26px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+  }
+
+  .rs-brand{
+    display:flex;
+    align-items:center;
+    text-decoration:none;
+    flex:0 0 auto;
+  }
+
+  /* Prevent stretch */
+  .rs-brand__logo{
+    height:40px;
+    width:auto;
+    max-width:220px;
+    object-fit:contain;
+    display:block;
+  }
+
+  .rs-nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    flex:1;
+    min-width:0;
+  }
+
+  .rs-nav__link{
+    display:inline-flex;
+    align-items:center;
+    padding:10px 12px;
+    border-radius:12px;
+    font-weight:600;
+    font-size:14px;
+    color:var(--rs-ink);
+    text-decoration:none;
+    white-space:nowrap;
+    transition:.15s ease;
+  }
+  .rs-nav__link:hover{background:#F6F7FB}
+
+  .rs-nav__link.is-active{position:relative}
+  .rs-nav__link.is-active::after{
+    content:"";
+    position:absolute;
+    left:12px; right:12px; bottom:6px;
+    height:2px;
+    border-radius:999px;
+    background:var(--rs-red);
+  }
+
+  /* Dropdown (CSS-only) with hover bridge */
+  .rs-nav__dropdown{position:relative}
+  .rs-nav__dropbtn{cursor:default}
+
+  .rs-nav__menu{
+    position:absolute;
+    top:100%;
+    left:0;
+    margin-top:8px;
+    min-width:210px;
+    background:#fff;
+    border:1px solid var(--rs-line);
+    border-radius:14px;
+    box-shadow:var(--rs-shadow);
+    padding:8px;
+    display:none;
+    z-index:50;
+  }
+
+  .rs-nav__dropdown::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:100%;
+    width:240px;
+    height:18px;
+    background:transparent;
+    display:none;
+    z-index:40;
+  }
+
+  .rs-nav__menu a{
+    display:block;
+    padding:11px 12px;
+    border-radius:12px;
+    font-weight:600;
+    font-size:14px;
+    color:var(--rs-ink);
+    text-decoration:none;
+    transition:.15s ease;
+  }
+  .rs-nav__menu a:hover{background:#F6F7FB}
+
+  .rs-nav__dropdown:hover .rs-nav__menu,
+  .rs-nav__dropdown:focus-within .rs-nav__menu{
+    display:block;
+  }
+  .rs-nav__dropdown:hover::before,
+  .rs-nav__dropdown:focus-within::before{
+    display:block;
+  }
+
+  .rs-actions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:10px;
+    flex:0 0 auto;
+  }
+
+  /* Button with hover animation */
+  .rs-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:11px 16px;
+    border-radius:12px;
+    border:1px solid var(--rs-line);
+    background:#fff;
+    font-weight:600;
+    font-size:14px;
+    color:var(--rs-ink);
+    text-decoration:none;
+    white-space:nowrap;
+    position:relative;
+    overflow:hidden;
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  }
+
+  .rs-btn--primary{
+    border-color:transparent;
+    background:var(--rs-red);
+    color:#fff;
+  }
+
+  /* subtle sheen animation */
+  .rs-btn--primary::after{
+    content:"";
+    position:absolute;
+    top:-30%;
+    left:-60%;
+    width:40%;
+    height:160%;
+    transform: rotate(20deg);
+    background: rgba(255,255,255,.25);
+    opacity:0;
+    transition: opacity .2s ease;
+  }
+
+  .rs-btn--primary:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(0,0,0,.14);
+    filter: brightness(.98);
+  }
+  .rs-btn--primary:hover::after{
+    opacity:1;
+    animation: rsSheen .9s ease forwards;
+  }
+
+  @keyframes rsSheen{
+    0%{left:-60%}
+    100%{left:120%}
+  }
+
+  .rs-desktopOnly{display:inline-flex}
+
+  /* Mobile hamburger */
+  .rs-iconbtn{
+    width:44px;height:44px;
+    border-radius:12px;
+    border:1px solid var(--rs-line);
+    background:#fff;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .rs-iconbtn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(0,0,0,.10);
+  }
+  .rs-iconbtn svg{width:20px;height:20px; fill:#111827; display:block}
+
+  /* Mobile panel */
+  .rs-mobile{
+    border-top:1px solid var(--rs-line);
+    background:#fff;
+  }
+  .rs-mobile__inner{
+    padding:14px 18px 18px;
     display:flex;
     flex-direction:column;
+    gap:10px;
   }
-  .topbar{ background:var(--bni-red); height:var(--header-h); }
-  .brand-row{
-    width:min(100%, var(--container-w));
-    margin:0 auto;
-    display:flex; align-items:center; gap:16px;
-    padding:18px 20px; border-bottom:1px solid #eee;
+  .rs-mobile__link{
+    padding:12px 12px;
+    border-radius:12px;
+    font-weight:600;
+    background:#F7F7FA;
+    border:1px solid #EEF0F6;
+    text-decoration:none;
+    color:var(--rs-ink);
+    transition:.15s ease;
   }
-  .brand-row .logo{
-    width: clamp(200px, 50vw, var(--brand-logo-w));
-    max-width:100%; height:auto; display:block;
+  .rs-mobile__link:hover{background:#F1F3F8}
+  .rs-mobile__cta{padding-top:6px}
+  .rs-btn--block{width:100%}
+
+  @media (max-width: 980px){
+    .rs-nav{display:none}
+    .rs-iconbtn{display:inline-flex}
+    .rs-desktopOnly{display:none}
+    .rs-header__inner{padding:0 16px}
+    .rs-brand__logo{height:36px; max-width:180px;}
   }
 
-  /* Content */
-  .content{
-    flex:1 0 auto;
-    padding: clamp(16px, 2vw, 32px);
-    background:#fff;
+  @media (max-width: 420px){
+    .rs-header{--rs-h:72px}
+    .rs-brand__logo{max-width:150px;}
   }
-
-  /* Header row */
-  .page-head{
-    display:flex; align-items:center; justify-content:space-between; gap:12px;
-    margin-bottom:14px;
-    flex-wrap:wrap;
-  }
-  .page-title{
-    margin:0; font-size:30px; font-weight:800;
-  }
-  .btn{
-    appearance:none; border:0; background:var(--bni-red); color:#fff;
-    font-weight:700; padding:10px 14px; border-radius:8px; cursor:pointer;
-    font-size:14px; text-decoration:none; white-space:nowrap; display:inline-block;
-  }
-
-  /* Filters */
-  .filters{
-    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-    margin-bottom:14px;
-  }
-  .input, .select{
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:10px 12px;
-    font-size:14px;
-    outline:none;
-    background:#fff;
-  }
-  .input{ min-width:260px; flex:1 1 260px; }
-  .select{ min-width:200px; }
-
-  /* Cards layout — two columns desktop/tablet, one-by-one mobile */
-  .cards{
-    display:grid;
-    grid-template-columns: repeat(2, minmax(280px, 1fr));
-    gap:16px;
-    align-items:start;
-  }
-  @media (max-width: 900px){
-    .cards{ grid-template-columns: 1fr; }
-  }
-
-  /* Seek cards */
-  .seek-card{
-    position:relative;
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius: var(--radius);
-    padding:16px;
-    box-shadow:0 8px 24px rgba(0,0,0,0.06);
-    display:flex; flex-direction:column;
-  }
-
-  /* Card header with avatar + requester + looking for */
-  .seek-top{
-    display:flex; align-items:flex-start; gap:12px; margin-bottom:10px;
-  }
-  .avatar{
-    width:42px; height:42px; border-radius:50%;
-    flex:0 0 42px; overflow:hidden; display:grid; place-items:center;
-    background:#f3f4f6; color:#374151; font-weight:800; font-size:14px;
-    border:1px solid var(--line);
-  }
-  .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .who-line{
-    margin:0; font-size:15px; line-height:1.35; color:var(--ink);
-  }
-  .who-line .name{ font-weight:800; }
-  .who-line .type{ font-weight:800; }
-  .meta{
-    display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:4px;
-    font-size:12px; color:var(--muted);
-  }
-  .pill{
-    display:inline-block; padding:6px 10px; border-radius:999px;
-    font-size:12px; line-height:1; background:#f3f4f6; color:#111;
-    border:1px solid var(--line);
-  }
-  .pill.red{
-    background:#ffe6e9; color:#9a1027; border-color:#f2b7bf;
-  }
-
-  .seek-title{
-    margin:10px 0 8px; font-size:16px; font-weight:700; color:var(--muted);
-  }
-
-  .details{ display:grid; gap:4px; font-size:14px; }
-  .label{ font-weight:700; }
-  .details, .collapsible{ margin-bottom: 14px; }
-
-  /* Button row */
-  .seek-actions{
-    border-top:1px solid #e5e7eb;
-    padding-top:12px;
-    margin-top:auto;
-    display:flex; gap:10px; flex-wrap:wrap;
-  }
-
-  /* Modal */
-  .modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center;
-    background:rgba(0,0,0,0.45); z-index:9998; padding:20px;}
-  .modal.open{ display:flex; }
-  .modal-card{
-    background:#fff; border-radius:var(--radius); border:1px solid var(--line);
-    max-width:560px; width:100%; padding:18px;
-  }
-  .modal h3{ margin:0 0 8px; font-size:18px; }
-  .modal p{ margin:0 0 14px; color:var(--muted); }
-  .row{ display:flex; gap:10px; align-items:center; }
-  .row > *{ flex:1; }
-  .field{ margin-bottom:10px; }
-  .field .label{ display:block; font-size:13px; margin-bottom:6px; font-weight:700; }
-  input[type="text"], input[type="email"], input[type="tel"], textarea, select{
-    width:100%; border:1px solid var(--line); border-radius:8px;
-    padding:10px 12px; font-size:14px; outline:none; background:#fff;
-  }
-  textarea{ min-height:90px; resize:vertical; }
-  .actions{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
-  .btn.secondary{ background:#f3f4f6; color:#111; border:1px solid var(--line); }
-
-  /* Footer */
-  .footer{
-    background:var(--bni-red); height:var(--footer-h);
-    display:flex; align-items:center; justify-content:center; color:#fff; font-weight:600;
-    letter-spacing:.3px;
-  }
-
-  /* Sticky badge */
-  .powered-by{
-    position:fixed; right:18px; bottom:18px; z-index:9999;
-    display:inline-flex; align-items:center; gap:var(--badge-gap);
-    background:rgba(255,255,255,0.9); border:1px solid rgba(0,0,0,0.08);
-    border-radius:999px; padding:8px 12px; box-shadow:0 6px 18px rgba(0,0,0,0.08);
-    opacity:var(--badge-opacity); transition:opacity .2s ease; backdrop-filter:blur(6px);
-  }
-  .powered-by:hover{ opacity:1; }
-  .powered-by span{ font-size:var(--badge-size); line-height:1; color:#111827; white-space:nowrap; }
-  .powered-by img{ height:calc(var(--badge-size) + 6px); width:auto; display:block; }
 </style>
-</head>
-
-<body>
-  <div class="site">
-    <div class="topbar" aria-hidden="true"></div>
-
-    <div class="brand-row">
-      <img class="logo" src="https://d34hmiuaex7c0.cloudfront.net/6568/uploads/cmaspages/gallery/galleryitem_1759854726598.png" alt="BNI Rock Solid Referrals Logo">
-    </div>
-
-    <main class="content" role="main">
-      <div class="page-head">
-        <h1 class="page-title">Seek of the Week — Submissions</h1>
-        <a class="btn" href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-page/">Submit a Seek</a>
-      </div>
-
-      <!-- Filters -->
-      <div class="filters">
-        <input id="searchInput" class="input" type="text" aria-label="Search seeks" placeholder="Search by name, company, industry, title, notes…">
-        <select id="sortSelect" class="select" aria-label="Sort results">
-          <option value="newest">Sort: Newest first</option>
-          <option value="oldest">Sort: Oldest first</option>
-          <option value="referrals_desc">Sort: Most referrals</option>
-          <option value="referrals_asc">Sort: Fewest referrals</option>
-          <option value="type_az">Sort: Type A→Z</option>
-        </select>
-      </div>
-
-      <!-- Cards -->
-      <section class="cards" id="cards"></section>
-    </main>
-
-    <footer class="footer" role="contentinfo">
-      <div>BNI Rock Solid Referrals</div>
-    </footer>
-  </div>
-
-  <!-- Sticky badge -->
-  <a class="powered-by" href="https://segwik.com/" aria-label="Powered by Segwik (opens portal)" target="_blank" rel="noopener">
-    <span>Powered by</span>
-    <img src="https://d34hmiuaex7c0.cloudfront.net/6568/uploads/cmaspages/gallery/galleryitem_1759854883923.png" alt="Segwik">
-  </a>
-
-  <!-- “I know” Modal -->
-  <div class="modal" id="knowModal" role="dialog" aria-modal="true" aria-labelledby="knowTitle">
-    <div class="modal-card">
-      <h3 id="knowTitle">Offer an Introduction</h3>
-      <p id="knowSubtitle"></p>
-
-      <div class="field">
-        <div class="row">
-          <div>
-            <label class="label">Your First Name</label>
-            <input type="text" id="k_first">
-          </div>
-          <div>
-            <label class="label">Your Last Name</label>
-            <input type="text" id="k_last">
-          </div>
-        </div>
-      </div>
-
-      <div class="row field">
-        <div>
-          <label class="label">Your Company</label>
-          <input type="text" id="k_company">
-        </div>
-        <div>
-          <label class="label">Your Email</label>
-          <input type="email" id="k_email">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Your Phone</label>
-        <input type="tel" id="k_phone">
-      </div>
-
-      <div id="k_dynamic"></div>
-
-      <div class="actions">
-        <button class="btn" id="k_send">Send Response</button>
-        <button class="btn secondary" id="k_cancel" type="button">Cancel</button>
-      </div>
-    </div>
-  </div>
 
 <script>
-/* ===== Demo + persistence ===== */
-const LIST_KEY = "bni_seek_requests_list_ui_profile_v1";
+  /* Minimal / necessary only: mobile hamburger open/close */
+  (function(){
+    const btn = document.getElementById('rsMenuBtn');
+    const panel = document.getElementById('rsMobilePanel');
+    if(!btn || !panel) return;
 
-/* Utilities */
-const $  = (s, el=document) => el.querySelector(s);
-const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
-const uid = () => Math.random().toString(36).slice(2,9);
-const fmtDate = (ts) => {
-  const d = new Date(ts);
-  return d.toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'});
-};
+    function close(){
+      panel.setAttribute('hidden','');
+      btn.setAttribute('aria-expanded','false');
+    }
 
-/* Demo data with requester + optional avatar */
-const now = Date.now(), day = 86400000;
-const demo = [
-  { id:"d1", type:"persona", createdAt: now - 2*60*60*1000,
-    requesterName:"Pete Romano", avatar:"", // put URL if you have one
-    referrals:[{id:"r1",name:"Casey Nguyen"}],
-    personaIndustry:"Real Estate", personaTitle:"Office Manager", personaSeniority:"Mid-Level",
-    whatActions:"Ask for a 15-minute discovery call.",
-    whatSay:"We reduce admin back-and-forth with a simple portal.",
-    notes:"Within 25 miles of Oakhurst."
-  },
-  { id:"d2", type:"company", createdAt: now - 1*day - 3*60*60*1000,
-    requesterName:"Alicia Chen", avatar:"",
-    referrals:[{id:"r2",name:"Alex Wu"}],
-    companyName:"Acme Builders LLC",
-    whatActions:"Intro via LinkedIn and share calendar link.",
-    whatSay:"Pete’s team can streamline subcontractor onboarding.",
-    notes:"Open to meeting on Fridays."
-  },
-  { id:"d3", type:"person", createdAt: now - 7*day - 2*60*60*1000,
-    requesterName:"Marcus Hill", avatar:"",
-    referrals:[],
-    personFirst:"Jordan", personLast:"Lee", personCompany:"Lee Home Inspections",
-    whatActions:"Warm email intro and include both parties.",
-    whatSay:"Jordan helped our buyers avoid a costly issue — worth a quick chat.",
-    notes:"Monmouth County homeowners preferred."
-  },
-  { id:"d4", type:"person", createdAt: now - 20*day,
-    requesterName:"Sam Patel", avatar:"",
-    referrals:[{id:"r4",name:"Sofia"}],
-    personFirst:"Dana", personLast:"Kim", personCompany:"",
-    whatActions:"Make a group text intro.",
-    whatSay:"Dana is a trusted adviser for investment buyers.",
-    notes:"Best reached in afternoons."
-  },
-  { id:"d5", type:"company", createdAt: new Date("2025-01-12T10:00:00").getTime(),
-    requesterName:"Priya Kapoor", avatar:"",
-    referrals:[],
-    companyName:"Brightline Solar Inc.",
-    whatActions:"Share their ops contact; we’ll send a brief capabilities deck.",
-    whatSay:"Our team helped neighbors cut energy bills by 23%.",
-    notes:"Prefer Mon–Thu mornings."
-  },
-  { id:"d6", type:"persona", createdAt: new Date("2025-02-03T14:30:00").getTime(),
-    requesterName:"Jamal Carter", avatar:"",
-    referrals:[{id:"r5",name:"Taylor Brooks"}],
-    personaIndustry:"Healthcare", personaTitle:"HR Director", personaSeniority:"Senior",
-    whatActions:"Ask for a quick intro call this week.",
-    whatSay:"We modernize benefits enrollment without extra cost.",
-    notes:"NJ/NY area ideal."
+    btn.addEventListener('click', () => {
+      const isHidden = panel.hasAttribute('hidden');
+      if(isHidden){
+        panel.removeAttribute('hidden');
+        btn.setAttribute('aria-expanded','true');
+      }else{
+        close();
+      }
+    });
+
+    // Optional nice behavior: close after tapping a link
+    panel.addEventListener('click', (e) => {
+      if(e.target && e.target.tagName === 'A') close();
+    });
+
+    // Close if resizing back to desktop
+    window.addEventListener('resize', () => {
+      if(window.innerWidth > 980) close();
+    });
+  })();
+</script>
+
+
+
+
+<!--start-->
+
+<!-- =========================================================
+BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
+- NO doctype/html/head
+- Same search bar structure as directory
+- Clear search is X inside search bar (rs-clearBtn)
+- Chips + empty state behavior match directory
+========================================================= -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<main class="rs-seeks">
+
+  <!-- =========================
+       1) SEEKS HERO
+  ========================= -->
+  <section class="rs-seeksHero" aria-label="Seek submissions hero">
+    <div class="rs-container rs-seeksHero__grid">
+
+      <div class="rs-seeksHero__copy">
+        <h1 class="rs-seeksHero__title">Seek of the Week — Submissions</h1>
+        <p class="rs-seeksHero__sub">
+          View the latest Seek requests from chapter members. Search, sort, and respond when you know someone who could help.
+        </p>
+
+        <div class="rs-seeksHero__actions">
+          <a class="rs-btn rs-btn--primary" href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-page/">
+            <i class="fa-solid fa-plus"></i> Submit a Seek
+          </a>
+        </div>
+      </div>
+
+      <div class="rs-seeksHero__visual" aria-label="Hero visual">
+        <div class="rs-imgPh rs-imgPh--seeksHero">
+          <div class="rs-imgPh__label">
+            <strong>IMAGE PLACEHOLDER</strong><br>
+            Size: <strong>540px × 260px</strong><br>
+            Visual: Networking / intros / referrals visual or clean illustration.<br>
+            Style: Bright, modern, subtle.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       2) SEARCH + SORT
+  ========================= -->
+  <section class="rs-seeksTools" aria-label="Seek tools">
+    <div class="rs-container">
+
+      <div class="rs-toolsRow">
+
+        <!-- Search Wrap (matches directory structure) -->
+        <div class="rs-searchWrap" aria-label="Seek search">
+          <div class="rs-searchBar" role="search">
+            <i class="rs-searchIcon fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+
+            <input id="rsSeeksSearch" type="text"
+                   placeholder="Search by member, company, title, notes..."
+                   aria-label="Search seeks"
+                   autocomplete="off">
+
+            <!-- ✅ EXACT DIRECTORY CLEAR BUTTON -->
+            <button class="rs-clearBtn" id="rsClearSeeksSearch" type="button" aria-label="Clear search" title="Clear">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <!-- Results meta -->
+          <div class="rs-resultsMeta" aria-live="polite">
+            <span id="rsSeeksResultsCount" class="rs-resultsCount">Showing 4 seeks</span>
+
+          </div>
+        </div>
+
+        <!-- Sort chips (same UI as directory filter chips) -->
+        <div class="rs-filterRow" aria-label="Sort seeks" id="rsSeeksSortRow">
+          <button class="rs-chip is-active" type="button" data-sort="newest">
+            <i class="fa-solid fa-clock"></i> Newest
+          </button>
+          <button class="rs-chip" type="button" data-sort="oldest">
+            <i class="fa-solid fa-hourglass-start"></i> Oldest
+          </button>
+          <button class="rs-chip" type="button" data-sort="referrals_desc">
+            <i class="fa-solid fa-arrow-up-wide-short"></i> Most referrals
+          </button>
+          <button class="rs-chip" type="button" data-sort="referrals_asc">
+            <i class="fa-solid fa-arrow-down-wide-short"></i> Fewest referrals
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       3) SEEKS GRID
+  ========================= -->
+  <section class="rs-seeksGridWrap" aria-label="Seek submissions grid">
+    <div class="rs-container">
+
+      <!-- Empty state (same structure as directory) -->
+      <div class="rs-emptyState" id="rsSeeksEmptyState" aria-live="polite">
+        <div class="rs-emptyIcon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <div class="rs-emptyTitle">No matches found</div>
+        <div class="rs-emptyText">
+          Try a different keyword, or clear your search to see all current submissions.
+        </div>
+        <button class="rs-emptyBtn" id="rsSeeksEmptyClear" type="button">
+          Clear search
+        </button>
+      </div>
+
+      <div class="rs-seeksGrid" id="rsSeeksGrid"></div>
+
+      <div class="rs-seeksBottomNote" id="rsSeeksBottomNote">
+        Tip: Search by industry or job title to quickly spot relevant introductions.
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+
+<style>
+  /* =========================================================
+     SEEKS PAGE STYLES ONLY (SCOPED — MATCH DIRECTORY TOKENS)
+  ========================================================= */
+
+  .rs-seeks{
+    --rs-red:#CF2030;
+    --rs-ink:#111827;
+    --rs-muted:#6B7280;
+    --rs-line:#E5E7EB;
+    --rs-soft:#F6F7FB;
+    --rs-soft2:#FBFBFD;
+    --rs-shadow: 0 12px 28px rgba(0,0,0,.08);
+
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--rs-ink);
+    background:#fff;
   }
-];
 
-function loadList(){
-  const stored = localStorage.getItem(LIST_KEY);
-  let list = stored ? JSON.parse(stored) : demo.slice();
-  list.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
-  localStorage.setItem(LIST_KEY, JSON.stringify(list));
-  return list;
-}
-function saveList(list){ localStorage.setItem(LIST_KEY, JSON.stringify(list)); }
+  .rs-seeks, .rs-seeks *{ box-sizing:border-box; }
 
-/* Labels */
-function typeLabel(t){
-  if(t==="person") return "Specific Person";
-  if(t==="company") return "Specific Company";
-  return "Type of Person";
-}
-function actionButtonText(t){
-  if(t==="person") return "I know her/him";
-  if(t==="company") return "I know this company";
-  return "I know someone";
-}
-
-/* Avatar helper (initials if no image) */
-function renderAvatar(name, url){
-  if(url){
-    return `<span class="avatar"><img src="${url}" alt="${name}"></span>`;
+  .rs-container{
+    width:100%;
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 22px;
   }
-  const initials = (name||"").split(" ").map(p=>p[0]).slice(0,2).join("").toUpperCase() || "?";
-  return `<span class="avatar" aria-hidden="true">${initials}</span>`;
-}
 
-/* Card factory */
-function renderCard(req){
-  const wrap = document.createElement("article");
-  wrap.className = "seek-card";
-  wrap.dataset.id = req.id;
+  /* Hero */
+  .rs-seeksHero{
+    padding:42px 0 24px;
+    background:
+      radial-gradient(900px 420px at 15% 0%, rgba(207,32,48,.10), rgba(255,255,255,0) 55%),
+      radial-gradient(900px 420px at 85% 25%, rgba(17,24,39,.06), rgba(255,255,255,0) 55%);
+  }
+  .rs-seeksHero__grid{
+    display:grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap:20px;
+    align-items:center;
+  }
+  .rs-seeksHero__title{
+    margin:0;
+    font-size:40px;
+    letter-spacing:-.03em;
+    line-height:1.08;
+  }
+  .rs-seeksHero__sub{
+    margin:12px 0 14px;
+    color:var(--rs-muted);
+    line-height:1.7;
+    max-width:640px;
+  }
+  .rs-seeksHero__meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
 
-  // Top: avatar + “NAME is looking for a TYPE”
-  const top = document.createElement("div");
-  top.className = "seek-top";
-  top.innerHTML = `
-    ${renderAvatar(req.requesterName || "Member", req.avatar)}
-    <div>
-      <p class="who-line"><span class="name">${req.requesterName || "A Member"}</span> is looking for a <span class="type">${typeLabel(req.type)}</span>.</p>
-      <div class="meta">
-        <span class="pill">${typeLabel(req.type)}</span>
-        <span>Submitted On: ${fmtDate(req.createdAt || Date.now())}</span>
-        <span class="pill red" data-role="count">${(req.referrals||[]).length} referral${(req.referrals||[]).length===1?'':'s'}</span>
+  .rs-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    border-radius:999px;
+    background:rgba(207,32,48,.08);
+    color:var(--rs-red);
+    border:1px solid rgba(207,32,48,.12);
+    font-weight:700;
+    font-size:13px;
+  }
+
+  .rs-seeksHero__actions{ margin-top:14px; }
+
+  .rs-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px 16px;
+    border-radius:12px;
+    border:1px solid var(--rs-line);
+    background:#fff;
+    font-weight:600;
+    font-size:14px;
+    color:var(--rs-ink);
+    text-decoration:none;
+    gap:10px;
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    position:relative;
+    overflow:hidden;
+    white-space:nowrap;
+  }
+  .rs-btn--primary{
+    border-color:transparent;
+    background:var(--rs-red);
+    color:#fff;
+  }
+  .rs-btn--primary:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 14px 26px rgba(207,32,48,.18);
+    filter: brightness(.98);
+  }
+
+  .rs-imgPh{
+    width:100%;
+    border-radius:18px;
+    border:1px dashed rgba(17,24,39,.22);
+    background: linear-gradient(180deg, #fff, #FBFBFD);
+    box-shadow: 0 12px 26px rgba(0,0,0,.06);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    text-align:center;
+    color:#6B7280;
+    line-height:1.5;
+  }
+  .rs-imgPh__label{ font-size:13px; max-width:520px; }
+  .rs-imgPh--seeksHero{ height:260px; }
+
+  /* Tools */
+  .rs-seeksTools{ padding:18px 0 6px; }
+  .rs-toolsRow{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .rs-searchWrap{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  /* ✅ identical to directory */
+  .rs-searchBar{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    border:1px solid rgba(17,24,39,.10);
+    border-radius:16px;
+    padding:10px 12px;
+    background:#fff;
+    box-shadow: 0 12px 26px rgba(0,0,0,.05);
+  }
+  .rs-searchBar:focus-within{
+    border-color: rgba(207,32,48,.28);
+    box-shadow: 0 14px 30px rgba(207,32,48,.10);
+  }
+  .rs-searchIcon{
+    opacity:.75;
+    font-size:16px;
+    color:#374151;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:22px;
+  }
+  .rs-searchBar input{
+    border:none;
+    outline:none;
+    font-size:14px;
+    flex:1;
+    padding:10px 6px;
+    min-width:160px;
+  }
+
+  /* ✅ SAME CLEAR BUTTON AS DIRECTORY */
+  .rs-clearBtn{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    border:1px solid rgba(17,24,39,.10);
+    background: rgba(17,24,39,.04);
+    color:#374151;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:.18s ease;
+  }
+  .rs-clearBtn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 12px 22px rgba(0,0,0,.10);
+  }
+  .rs-clearBtn.is-visible{ display:inline-flex; }
+
+  /* Results meta */
+  .rs-resultsMeta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    font-size:13px;
+    color:#4B5563;
+  }
+  .rs-resultsCount{ font-weight:900; color:#111827; }
+  .rs-activeFilter{ color:#6B7280; }
+
+  /* chips */
+  .rs-filterRow{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .rs-chip{
+    cursor:pointer;
+    border:1px solid rgba(17,24,39,.12);
+    background:#fff;
+    padding:9px 12px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+    color:#374151;
+    transition:.18s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .rs-chip:hover{
+    transform:translateY(-1px);
+    box-shadow:0 10px 18px rgba(0,0,0,.06);
+  }
+  .rs-chip.is-active{
+    background:rgba(207,32,48,.10);
+    color:var(--rs-red);
+    border-color:rgba(207,32,48,.18);
+  }
+
+  /* Grid */
+  .rs-seeksGridWrap{ padding:12px 0 56px; }
+
+  .rs-seeksGrid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:14px;
+    margin-top:14px;
+  }
+
+  /* Seek Card */
+  .rs-seekCard{
+    border:1px solid rgba(17,24,39,.10);
+    background:#fff;
+    border-radius:18px;
+    box-shadow: 0 10px 18px rgba(0,0,0,.05);
+    overflow:hidden;
+    transition: transform .18s ease, box-shadow .18s ease;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+  }
+  .rs-seekCard:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--rs-shadow);
+  }
+  .rs-seekCard::before{
+    content:"";
+    position:absolute;
+    left:0; top:0;
+    height:4px; width:100%;
+    background: linear-gradient(90deg, rgba(207,32,48,1), rgba(207,32,48,.25));
+  }
+
+  .rs-seekBody{
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .rs-seekTop{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    margin-top:6px;
+  }
+
+  .rs-avatar{
+    width:44px; height:44px; border-radius:50%;
+    overflow:hidden; display:flex; align-items:center; justify-content:center;
+    background: rgba(17,24,39,.04);
+    color:#374151; font-weight:900; font-size:14px;
+    border:1px solid rgba(17,24,39,.10);
+    flex:0 0 44px;
+  }
+
+  .rs-whoLine{
+    margin:0;
+    font-size:15px;
+    line-height:1.35;
+  }
+  .rs-whoLine .name{ font-weight:600; }
+  .rs-whoLine .type{ font-weight:600; color:var(--rs-red); }
+
+  .rs-metaLine{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:6px;
+    font-size:12px;
+    color:var(--rs-muted);
+  }
+  .rs-tagPill{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 10px;
+    border-radius:999px;
+    font-size:12px;
+    background: rgba(17,24,39,.04);
+    border:1px solid rgba(17,24,39,.10);
+    font-weight:700;
+    color:#111827;
+  }
+  .rs-tagPill.red{
+    background:rgba(207,32,48,.10);
+    border-color:rgba(207,32,48,.18);
+    color:#9a1027;
+  }
+
+  .rs-seekSectionTitle{
+    margin:2px 0 0;
+    font-size:12px;
+    letter-spacing:.06em;
+    color:#6B7280;
+    text-transform:uppercase;
+    font-weight:900;
+  }
+
+  .rs-seekDetails{
+    display:grid;
+    gap:6px;
+    font-size:14px;
+    padding:6px 0 0;
+  }
+  .rs-seekDetails b{ font-weight:600; }
+
+  .rs-seekActions{
+    padding:12px 14px 14px;
+    border-top:1px solid rgba(17,24,39,.10);
+    display:flex;
+    justify-content:flex-end;
+  }
+
+  .rs-seekBtn{
+    cursor:pointer;
+    border:none;
+    background: var(--rs-red);
+    color:#fff;
+    font-weight:700;
+    font-size:13px;
+    padding:12px 14px;
+    border-radius:14px;
+    transition:.18s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .rs-seekBtn:hover{
+    filter:brightness(.98);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 26px rgba(207,32,48,.18);
+  }
+
+  .rs-seeksBottomNote{
+    margin-top:18px;
+    color:#6B7280;
+    font-size:13px;
+  }
+
+  /* Empty state */
+  .rs-emptyState{
+    display:none;
+    margin-top:18px;
+    padding:22px;
+    border-radius:18px;
+    border:1px solid rgba(17,24,39,.10);
+    background: linear-gradient(180deg, #fff, #FBFBFD);
+    box-shadow: 0 12px 26px rgba(0,0,0,.06);
+    text-align:center;
+  }
+  .rs-emptyState.is-visible{ display:block; }
+  .rs-emptyIcon{
+    width:54px;height:54px;
+    border-radius:18px;
+    background: rgba(207,32,48,.10);
+    color: var(--rs-red);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 12px;
+    font-size:18px;
+    font-weight:900;
+  }
+  .rs-emptyTitle{ font-weight:600; font-size:16px; margin-bottom:6px; }
+  .rs-emptyText{ color:var(--rs-muted); font-size:13px; line-height:1.6; margin-bottom:14px; }
+  .rs-emptyBtn{
+    cursor:pointer;
+    border:none;
+    background: var(--rs-red);
+    color:#fff;
+    font-weight:600;
+    font-size:13px;
+    padding:11px 14px;
+    border-radius:14px;
+    transition:.18s ease;
+  }
+  .rs-emptyBtn:hover{
+    filter:brightness(.98);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 26px rgba(207,32,48,.18);
+  }
+
+  /* Responsive */
+  @media (max-width: 980px){
+    .rs-seeksHero__grid{ grid-template-columns: 1fr; }
+    .rs-seeksGrid{ grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 520px){
+    .rs-container{ padding:0 16px; }
+    .rs-seeksHero{ padding:32px 0 20px; }
+    .rs-seeksHero__title{ font-size:30px; }
+    .rs-imgPh--seeksHero{ height:220px; }
+
+    .rs-searchBar{
+      flex-wrap:wrap;
+      gap:10px;
+      padding:12px;
+    }
+    .rs-searchBar input{
+      flex:1 1 100%;
+      padding:12px 6px;
+      font-size:15px;
+    }
+    .rs-clearBtn{
+      width:100%;
+      border-radius:14px;
+      height:42px;
+      order:3;
+    }
+    .rs-resultsMeta{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:6px;
+    }
+  }
+</style>
+
+
+<script>
+  // =========================================================
+  // SEEKS UI LOGIC (MATCH DIRECTORY PATTERN)
+  // - search + sort combine together
+  // - clear X toggles with .is-visible
+  // - empty state if 0 results
+  // - hides bottom note while searching/sorting
+  // =========================================================
+  (function(){
+    const input = document.getElementById('rsSeeksSearch');
+    const clearBtn = document.getElementById('rsClearSeeksSearch');
+    const emptyState = document.getElementById('rsSeeksEmptyState');
+    const emptyClear = document.getElementById('rsSeeksEmptyClear');
+    const bottomNote = document.getElementById('rsSeeksBottomNote');
+    const grid = document.getElementById('rsSeeksGrid');
+
+    const resultsCount = document.getElementById('rsSeeksResultsCount');
+    const activeSortEl = document.getElementById('rsSeeksActiveSort');
+
+    const sortRow = document.getElementById('rsSeeksSortRow');
+
+    const now = Date.now(), day = 86400000;
+    const SEEKS = [
+      { id:"d1", type:"persona", createdAt: now - 2*60*60*1000,
+        requesterName:"Pete Romano", avatar:"",
+        referrals:[{id:"r1",name:"Casey Nguyen"}],
+        personaIndustry:"Real Estate", personaTitle:"Office Manager", personaSeniority:"Mid-Level",
+        whatActions:"Ask for a 15-minute discovery call.",
+        whatSay:"We reduce admin back-and-forth with a simple portal.",
+        notes:"Within 25 miles of Oakhurst."
+      },
+      { id:"d2", type:"company", createdAt: now - 1*day - 3*60*60*1000,
+        requesterName:"Alicia Chen", avatar:"",
+        referrals:[{id:"r2",name:"Alex Wu"}],
+        companyName:"Acme Builders LLC",
+        whatActions:"Intro via LinkedIn and share calendar link.",
+        whatSay:"Pete’s team can streamline subcontractor onboarding.",
+        notes:"Open to meeting on Fridays."
+      },
+      { id:"d3", type:"person", createdAt: now - 7*day - 2*60*60*1000,
+        requesterName:"Marcus Hill", avatar:"",
+        referrals:[],
+        personFirst:"Jordan", personLast:"Lee", personCompany:"Lee Home Inspections",
+        whatActions:"Warm email intro and include both parties.",
+        whatSay:"Jordan helped our buyers avoid a costly issue — worth a quick chat.",
+        notes:"Monmouth County homeowners preferred."
+      },
+      { id:"d4", type:"person", createdAt: now - 20*day,
+        requesterName:"Sam Patel", avatar:"",
+        referrals:[{id:"r4",name:"Sofia"}],
+        personFirst:"Dana", personLast:"Kim", personCompany:"",
+        whatActions:"Make a group text intro.",
+        whatSay:"Dana is a trusted adviser for investment buyers.",
+        notes:"Best reached in afternoons."
+      }
+    ];
+
+    let ACTIVE_SORT = 'newest';
+
+    if(!input || !grid) return;
+
+    function normalize(str){
+      return (str || '').toLowerCase().replace(/\s+/g,' ').trim();
+    }
+
+    function fmtDate(ts){
+      const d = new Date(ts);
+      return d.toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'});
+    }
+
+    function typeLabel(t){
+      if(t === "person") return "Specific Person";
+      if(t === "company") return "Specific Company";
+      return "Type of Person";
+    }
+
+    function actionButtonText(t){
+      if(t === "person") return "I know her/him";
+      if(t === "company") return "I know this company";
+      return "I know someone";
+    }
+
+    function avatarInitials(name){
+      const parts = (name || "").split(" ").filter(Boolean);
+      return (parts[0]?.[0] || "?" ) + (parts[1]?.[0] || "");
+    }
+
+    function setSearchingUI(isSearching){
+      if(bottomNote){
+        bottomNote.style.display = isSearching ? 'none' : '';
+      }
+    }
+
+    function updateClearBtn(){
+      if(normalize(input.value).length){
+        clearBtn.classList.add('is-visible');
+      }else{
+        clearBtn.classList.remove('is-visible');
+      }
+    }
+
+    function sortLabel(key){
+      const map = {
+        newest: "Newest",
+        oldest: "Oldest",
+        referrals_desc: "Most referrals",
+        referrals_asc: "Fewest referrals"
+      };
+      return map[key] || "Newest";
+    }
+
+    function buildSeekSearchText(s){
+      const full = [s.personFirst, s.personLast].filter(Boolean).join(" ");
+      return normalize([
+        s.requesterName,
+        typeLabel(s.type),
+        s.companyName,
+        s.personaIndustry, s.personaTitle, s.personaSeniority,
+        full,
+        s.whatActions, s.whatSay, s.notes
+      ].join(" "));
+    }
+
+    function filteredAndSorted(){
+      const q = normalize(input.value);
+      const out = SEEKS.filter(s => !q || buildSeekSearchText(s).includes(q));
+
+      if(ACTIVE_SORT === "oldest"){
+        out.sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
+      }else if(ACTIVE_SORT === "referrals_desc"){
+        out.sort((a,b)=>(b.referrals?.length||0)-(a.referrals?.length||0));
+      }else if(ACTIVE_SORT === "referrals_asc"){
+        out.sort((a,b)=>(a.referrals?.length||0)-(b.referrals?.length||0));
+      }else{
+        out.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+      }
+
+      return out;
+    }
+
+    function renderCard(s){
+      const wrapper = document.createElement('article');
+      wrapper.className = 'rs-seekCard';
+
+      const initials = avatarInitials(s.requesterName).toUpperCase();
+      const full = [s.personFirst, s.personLast].filter(Boolean).join(" ");
+
+      let details = '';
+      if(s.type === "person"){
+        details = `
+          <div><b>Name:</b> ${full || "—"}</div>
+          <div><b>Company:</b> ${s.personCompany || "—"}</div>
+          <div><b>How You Can Help:</b> ${s.whatActions || "—"}</div>
+          <div><b>What to Share:</b> ${s.whatSay || "—"}</div>
+          <div><b>Notes:</b> ${s.notes || "—"}</div>
+        `;
+      }else if(s.type === "company"){
+        details = `
+          <div><b>Company:</b> ${s.companyName || "—"}</div>
+          <div><b>How You Can Help:</b> ${s.whatActions || "—"}</div>
+          <div><b>What to Share:</b> ${s.whatSay || "—"}</div>
+          <div><b>Notes:</b> ${s.notes || "—"}</div>
+        `;
+      }else{
+        details = `
+          <div><b>Industry:</b> ${s.personaIndustry || "—"}</div>
+          <div><b>Job Title:</b> ${s.personaTitle || "—"}</div>
+          <div><b>Seniority:</b> ${s.personaSeniority || "—"}</div>
+          <div><b>How You Can Help:</b> ${s.whatActions || "—"}</div>
+          <div><b>What to Share:</b> ${s.whatSay || "—"}</div>
+          <div><b>Notes:</b> ${s.notes || "—"}</div>
+        `;
+      }
+
+      wrapper.innerHTML = `
+        <div class="rs-seekBody">
+
+          <div class="rs-seekTop">
+            <div class="rs-avatar" aria-hidden="true">${initials}</div>
+            <div>
+              <p class="rs-whoLine">
+                <span class="name">${s.requesterName || "A Member"}</span>
+                is looking for a <span class="type">${typeLabel(s.type)}</span>.
+              </p>
+
+              <div class="rs-metaLine">
+                <span class="rs-tagPill"><i class="fa-solid fa-tag"></i> ${typeLabel(s.type)}</span>
+                
+                <span class="rs-tagPill red"><i class="fa-solid fa-handshake"></i> ${(s.referrals||[]).length} referral${(s.referrals||[]).length===1?'':'s'}</span>
+
+                <span><br><i class="fa-regular fa-calendar"></i> Submitted: ${fmtDate(s.createdAt || Date.now())}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rs-seekSectionTitle">Request Details</div>
+          <div class="rs-seekDetails">${details}</div>
+
+        </div>
+
+        <div class="rs-seekActions">
+          <button class="rs-seekBtn" type="button">
+            <i class="fa-solid fa-handshake"></i> ${actionButtonText(s.type)}
+          </button>
+        </div>
+      `;
+
+      return wrapper;
+    }
+
+    function applyUI(){
+      const q = normalize(input.value);
+      const results = filteredAndSorted();
+      const shown = results.length;
+
+      const isSearching = !!q || (ACTIVE_SORT !== 'newest');
+      setSearchingUI(isSearching);
+
+      // results meta
+      if(resultsCount){
+        resultsCount.textContent = `Showing ${shown} seek${shown === 1 ? '' : 's'}`;
+      }
+      if(activeSortEl){
+        activeSortEl.textContent = `Sorted by: ${sortLabel(ACTIVE_SORT)}`;
+      }
+
+      // render
+      grid.innerHTML = '';
+      results.forEach(s => grid.appendChild(renderCard(s)));
+
+      // empty
+      if(emptyState){
+        if(shown === 0){
+          emptyState.classList.add('is-visible');
+          grid.style.display = 'none';
+        }else{
+          emptyState.classList.remove('is-visible');
+          grid.style.display = '';
+        }
+      }
+    }
+
+    // Search
+    input.addEventListener('input', function(){
+      updateClearBtn();
+      applyUI();
+    });
+
+    // Clear search X
+    clearBtn.addEventListener('click', function(){
+      input.value = '';
+      updateClearBtn();
+      applyUI();
+      input.focus();
+    });
+
+    // Empty clear
+    if(emptyClear){
+      emptyClear.addEventListener('click', function(){
+        input.value = '';
+        ACTIVE_SORT = 'newest';
+
+        // reset chips
+        Array.from(sortRow.querySelectorAll('.rs-chip')).forEach(btn => btn.classList.remove('is-active'));
+        const newestBtn = sortRow.querySelector('[data-sort="newest"]');
+        if(newestBtn) newestBtn.classList.add('is-active');
+
+        updateClearBtn();
+        applyUI();
+        input.focus();
+      });
+    }
+
+    // Sort chips
+    if(sortRow){
+      sortRow.addEventListener('click', function(e){
+        const btn = e.target.closest('.rs-chip');
+        if(!btn) return;
+
+        ACTIVE_SORT = btn.getAttribute('data-sort') || 'newest';
+
+        Array.from(sortRow.querySelectorAll('.rs-chip')).forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+
+        applyUI();
+      });
+    }
+
+    // init
+    updateClearBtn();
+    applyUI();
+  })();
+</script>
+
+
+<!--end-->
+
+
+
+<footer class="rs-footer" role="contentinfo">
+  <div class="rs-footer__inner">
+
+    <div class="rs-footer__grid">
+
+      <!-- Brand -->
+      <div class="rs-footer__brand">
+        <img
+          class="rs-footer__logo"
+          src="https://d34hmiuaex7c0.cloudfront.net/6568/uploads/cmaspages/gallery/galleryitem_1759854726598.png"
+          alt="BNI Rock Solid Referrals"
+        />
+        <p class="rs-footer__desc">
+          BNI Rock Solid Referrals is a structured network of trusted local professionals —
+          built on consistency, credibility, and referrals that convert.
+        </p>
+      </div>
+
+      <!-- Explore -->
+      <div class="rs-footer__col">
+        <h4>Explore</h4>
+        <a href="https://kakatbarilea-prog.github.io/bni-homepage/">Home</a>
+        <a href="#">Chapter Members</a>
+        <a href="#">Meetings &amp; Events</a>
+        <a href="#">Gallery</a>
+      </div>
+
+      <!-- Members -->
+      <div class="rs-footer__col">
+        <h4>Members</h4>
+        <a href="#">Member Log-in</a>
+        <a href="https://kakatbarilea-prog.github.io/bni-chamber-members-directory/">Member Directory</a>
+        <a href="#">Request a 1-to-1</a>
+        <a href="#">Share a Referral</a>
+        <a href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-page/">Submit Seek of the Week</a>
+        <a href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-submissions/">View Seeks of the Week</a>
+      </div>
+
+    </div>
+
+    <div class="rs-footer__bottom">
+      <div class="rs-footer__bottomLeft">
+        © <span id="rsFooterYear"></span> BNI Rock Solid Referrals&nbsp;&nbsp;•&nbsp;&nbsp;Powered by Segwik
+      </div>
+
+      <div class="rs-footer__bottomRight">
+        <a href="#">Privacy Policy</a>
+        <span class="rs-footer__sep">|</span>
+        <a href="#">Terms &amp; Conditions</a>
       </div>
     </div>
-  `;
 
-  const title = document.createElement("h3");
-  title.className = "seek-title";
-  title.textContent = "Request Details";
+  </div>
+</footer>
 
-  const det = document.createElement("div");
-  det.className = "details";
-  if(req.type === "person"){
-    const full = [req.personFirst, req.personLast].filter(Boolean).join(" ");
-    det.innerHTML = `
-      <div><span class="label">Name:</span> ${full || "—"}</div>
-      <div><span class="label">Company:</span> ${req.personCompany || "—"}</div>
-      <div><span class="label">How You Can Help or Get Involved:</span> ${req.whatActions || "—"}</div>
-      <div><span class="label">What to Share or Talk About:</span> ${req.whatSay || "—"}</div>
-      <div><span class="label">Additional Notes:</span> ${req.notes || "—"}</div>
-    `;
-  } else if(req.type === "company"){
-    det.innerHTML = `
-      <div><span class="label">Company:</span> ${req.companyName || "—"}</div>
-      <div><span class="label">How You Can Help or Get Involved:</span> ${req.whatActions || "—"}</div>
-      <div><span class="label">What to Share or Talk About:</span> ${req.whatSay || "—"}</div>
-      <div><span class="label">Additional Notes:</span> ${req.notes || "—"}</div>
-    `;
-  } else {
-    det.innerHTML = `
-      <div><span class="label">Industry:</span> ${req.personaIndustry || "—"}</div>
-      <div><span class="label">Job Title:</span> ${req.personaTitle || "—"}</div>
-      <div><span class="label">Experience / Seniority:</span> ${req.personaSeniority || "—"}</div>
-      <div><span class="label">How You Can Help or Get Involved:</span> ${req.whatActions || "—"}</div>
-      <div><span class="label">What to Share or Talk About:</span> ${req.whatSay || "—"}</div>
-      <div><span class="label">Additional Notes:</span> ${req.notes || "—"}</div>
-    `;
+<style>
+  /* -------- FOOTER ONLY VARIABLES (scoped) -------- */
+  .rs-footer{
+    --rs-red:#CF2030;
+    --rs-bg:#333333;
+    --rs-text:#ffffff;
+    --rs-muted: rgba(255,255,255,.82);
+    --rs-line: rgba(255,255,255,.14);
   }
 
-  const actions = document.createElement("div");
-  actions.className = "seek-actions";
-  const actBtn = document.createElement("button");
-  actBtn.className = "btn";
-  actBtn.textContent = actionButtonText(req.type);
-  actBtn.addEventListener("click", () => openKnowModal(req));
-  actions.appendChild(actBtn);
-
-  wrap.appendChild(top);
-  wrap.appendChild(title);
-  wrap.appendChild(det);
-  wrap.appendChild(actions);
-
-  return wrap;
-}
-
-/* Search + sort + render */
-let ALL = loadList();
-function filterAndSort(list){
-  const q = ($("#searchInput").value || "").toLowerCase().trim();
-  let out = list.filter(item => {
-    const hay = [
-      item.requesterName,
-      typeLabel(item.type),
-      item.companyName,
-      item.personaIndustry, item.personaTitle, item.personaSeniority,
-      [item.personFirst, item.personLast].filter(Boolean).join(" "),
-      item.whatActions, item.whatSay, item.notes
-    ].join(" ").toLowerCase();
-    return !q || hay.includes(q);
-  });
-
-  const sort = $("#sortSelect").value;
-  if(sort === "oldest") out.sort((a,b)=> (a.createdAt||0)-(b.createdAt||0));
-  else if(sort === "referrals_desc") out.sort((a,b)=> (b.referrals?.length||0)-(a.referrals?.length||0));
-  else if(sort === "referrals_asc") out.sort((a,b)=> (a.referrals?.length||0)-(b.referrals?.length||0));
-  else if(sort === "type_az") out.sort((a,b)=> typeLabel(a.type).localeCompare(typeLabel(b.type)));
-  else out.sort((a,b)=> (b.createdAt||0)-(a.createdAt||0)); // newest
-
-  return out;
-}
-function renderAll(){
-  const wrap = $("#cards");
-  wrap.innerHTML = "";
-  filterAndSort(ALL).map(renderCard).forEach(el => wrap.appendChild(el));
-}
-$("#searchInput").addEventListener("input", renderAll);
-$("#sortSelect").addEventListener("change", renderAll);
-
-/* “I know” modal logic */
-let currentReq = null;
-function openKnowModal(req){
-  currentReq = req;
-  $("#knowTitle").textContent = "Offer an Introduction";
-  $("#knowSubtitle").textContent =
-    `You're responding to ${req.requesterName || "this member"} — ${typeLabel(req.type)}.`;
-
-  // Build dynamic fields per type
-  const box = $("#k_dynamic");
-  box.innerHTML = "";
-  if(req.type === "person"){
-    box.innerHTML = `
-      <div class="field">
-        <label class="label">Relationship / How you know them</label>
-        <input type="text" id="k_relation">
-      </div>
-      <div class="field">
-        <label class="label">Write a quick message to help them out</label>
-        <textarea id="k_message"></textarea>
-      </div>
-    `;
-  } else if(req.type === "company"){
-    box.innerHTML = `
-      <div class="field">
-        <label class="label">Person you’re connected with in this company</label>
-        <input type="text" id="k_contactName">
-      </div>
-      <div class="field">
-        <label class="label">Relationship / How you know them</label>
-        <input type="text" id="k_relation">
-      </div>
-      <div class="field">
-        <label class="label">Write a quick message to help them out</label>
-        <textarea id="k_message"></textarea>
-      </div>
-    `;
-  } else {
-    box.innerHTML = `
-      <div class="field">
-        <label class="label">Name of the Person you know</label>
-        <input type="text" id="k_contactName">
-      </div>
-      <div class="field">
-        <label class="label">Relationship / How you know them</label>
-        <input type="text" id="k_relation">
-      </div>
-      <div class="field">
-        <label class="label">Write a quick message to help them out</label>
-        <textarea id="k_message"></textarea>
-      </div>
-    `;
+  /* Scope all typography + box sizing to footer only */
+  .rs-footer, .rs-footer *{
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing:border-box;
   }
 
-  $("#knowModal").classList.add("open");
-}
-function closeKnowModal(){
-  $("#knowModal").classList.remove("open");
-  currentReq = null;
-}
-$("#k_cancel").addEventListener("click", closeKnowModal);
-document.addEventListener("keydown", (e)=> {
-  if(e.key==="Escape" && $("#knowModal").classList.contains("open")) closeKnowModal();
-});
-$("#knowModal").addEventListener("click", (e)=> {
-  if(e.target.id === "knowModal") closeKnowModal();
-});
-
-$("#k_send").addEventListener("click", () => {
-  if(!currentReq) return;
-  const first = $("#k_first").value.trim();
-  const last  = $("#k_last").value.trim();
-  const email = $("#k_email").value.trim();
-  const phone = $("#k_phone").value.trim();
-  if(!first || !last){ alert("Please provide your first and last name."); return; }
-  if(!email && !phone){ alert("Please provide your email or phone."); return; }
-
-  const referral = {
-    id: uid(),
-    yourFirst:first,
-    yourLast:last,
-    yourCompany: $("#k_company").value.trim(),
-    yourEmail: email,
-    yourPhone: phone,
-    contactName: $("#k_contactName")?.value?.trim() || "",
-    relation: $("#k_relation")?.value?.trim() || "",
-    message: $("#k_message")?.value?.trim() || "",
-    createdAt: Date.now()
-  };
-
-  // Persist
-  const list = ALL.slice();
-  const idx = list.findIndex(r => r.id === currentReq.id);
-  if(idx !== -1){
-    list[idx].referrals = list[idx].referrals || [];
-    list[idx].referrals.push(referral);
-    ALL = list;
-    saveList(ALL);
+  .rs-footer{
+    width:100%;
+    background: var(--rs-bg);
+    color: var(--rs-text);
+    border-top: 4px solid var(--rs-red);
   }
 
-  closeKnowModal();
-  renderAll();
-});
+  .rs-footer__inner{
+    width:100%;
+    max-width:1200px;
+    margin:0 auto;
+    padding:42px 22px 18px;
+  }
 
-/* Init */
-renderAll();
+  .rs-footer__grid{
+    display:grid;
+    grid-template-columns: 2.2fr 1fr 1fr;
+    gap:28px;
+    align-items:start;
+  }
+
+  /* Prevent logo stretch */
+  .rs-footer__logo{
+    height:34px;
+    width:auto;
+    max-width:220px;
+    object-fit:contain;
+    display:block;
+  }
+
+  .rs-footer__desc{
+    margin:12px 0 0;
+    font-weight:400;
+    font-size:14px;
+    line-height:1.6;
+    max-width:560px;
+    color: var(--rs-muted);
+  }
+
+  .rs-footer__col h4{
+    margin:0 0 12px;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:#fff;
+    position:relative;
+  }
+  .rs-footer__col h4::after{
+    content:"";
+    display:block;
+    width:42px;
+    height:2px;
+    border-radius:999px;
+    background: var(--rs-red);
+    margin-top:10px;
+    opacity:.95;
+  }
+
+  .rs-footer__col a{
+    display:block;
+    width:max-content;
+    margin:10px 0;
+    font-weight:400;
+    font-size:14px;
+    color: var(--rs-muted);
+    text-decoration:none;
+    transition:.15s ease;
+  }
+  .rs-footer__col a:hover{
+    color:#fff;
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+
+  .rs-footer__bottom{
+    margin-top:22px;
+    padding-top:14px;
+    border-top:1px solid var(--rs-line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    font-size:13px;
+    color: var(--rs-muted);
+  }
+
+  .rs-footer__bottomLeft{font-weight:400}
+
+  .rs-footer__bottomRight{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:400;
+  }
+  .rs-footer__bottomRight a{
+    color: var(--rs-muted);
+    text-decoration:none;
+    transition:.15s ease;
+  }
+  .rs-footer__bottomRight a:hover{
+    color:#fff;
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+  .rs-footer__sep{opacity:.5}
+
+  /* Mobile polish */
+  @media (max-width: 860px){
+    .rs-footer__grid{
+      grid-template-columns: 1fr 1fr;
+    }
+    .rs-footer__brand{
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 520px){
+    .rs-footer__inner{
+      padding:34px 16px 14px;
+    }
+
+    .rs-footer__grid{
+      grid-template-columns: 1fr;
+      gap:18px;
+    }
+
+    /* Make columns feel like sections on mobile */
+    .rs-footer__col{
+      padding-top:10px;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+
+    .rs-footer__col a{
+      width:100%;
+      padding:10px 0;
+      margin:0;
+    }
+
+    .rs-footer__bottom{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:8px;
+    }
+  }
+</style>
+
+<script>
+  document.getElementById("rsFooterYear").textContent = new Date().getFullYear();
 </script>
-</body>
-</html>
