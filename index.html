@@ -22,17 +22,31 @@
 
         <div class="rs-nav__menu" role="menu" aria-label="Chapter Members">
           <a role="menuitem" href="https://kakatbarilea-prog.github.io/bni-chamber-members-directory/">Directory</a>
-          <a role="menuitem" href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-submissions/">Seeks of the Week</a>
+          <a role="menuitem" class="rs-membersOnlyLink" href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-submissions/">Seeks of the Week</a>
         </div>
       </div>
 
-      <a class="rs-nav__link" href="#">Meetings &amp; Events</a>
+      <!-- UPDATED: Meetings & Events Dropdown -->
+      <div class="rs-nav__dropdown">
+        <a class="rs-nav__link rs-nav__dropbtn" href="#" aria-haspopup="true" aria-expanded="false">
+          Meetings &amp; Events
+        </a>
+
+        <div class="rs-nav__menu" role="menu" aria-label="Meetings & Events">
+          <a role="menuitem" href="#">Weekly Meetings</a>
+          <a role="menuitem" href="#">Upcoming Events</a>
+          <a role="menuitem" class="rs-membersOnlyLink" href="#">Member Promotions &amp; Events</a>
+          <a role="menuitem" class="rs-membersOnlyLink" href="#">Post an Event</a>
+        </div>
+      </div>
+
       <a class="rs-nav__link" href="#">Gallery</a>
+      <a class="rs-nav__link" href="#">News</a>
     </nav>
 
     <!-- Right -->
     <div class="rs-actions">
-      <a class="rs-btn rs-btn--primary rs-desktopOnly" href="#">Member Log-in</a>
+      <a class="rs-btn rs-btn--primary rs-desktopOnly" href="#" id="rsMemberLoginLink">Member Log-in</a>
 
       <!-- Mobile menu button (JS toggles panel) -->
       <button class="rs-iconbtn" id="rsMenuBtn" type="button" aria-label="Open menu" aria-expanded="false">
@@ -49,21 +63,51 @@
     <div class="rs-mobile__inner">
       <a href="https://kakatbarilea-prog.github.io/bni-homepage/" class="rs-mobile__link">Home</a>
       <a href="https://kakatbarilea-prog.github.io/bni-chamber-members-directory/" class="rs-mobile__link">Chapter Members — Directory</a>
-      <a href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-submissions/" class="rs-mobile__link">Chapter Members — Seeks of the Week</a>
-      <a href="#" class="rs-mobile__link">Meetings &amp; Events</a>
+      <a href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-submissions/" class="rs-mobile__link rs-membersOnlyLink">Chapter Members — Seeks of the Week</a>
+
+      <!-- UPDATED: Meetings & Events children in mobile -->
+      <a href="#" class="rs-mobile__link">Meetings &amp; Events — Weekly Meetings</a>
+      <a href="#" class="rs-mobile__link">Meetings &amp; Events — Upcoming Events</a>
+      <a href="#" class="rs-mobile__link rs-membersOnlyLink">Meetings &amp; Events — Member Promotions &amp; Events</a>
+      <a href="#" class="rs-mobile__link rs-membersOnlyLink">Meetings &amp; Events — Post an Event</a>
+
       <a href="#" class="rs-mobile__link">Gallery</a>
+      <a href="#" class="rs-mobile__link">News</a>
 
       <div class="rs-mobile__cta">
-        <a class="rs-btn rs-btn--primary rs-btn--block" href="#">Member Log-in</a>
+        <a class="rs-btn rs-btn--primary rs-btn--block" href="#" id="rsMemberLoginLinkMobile">Member Log-in</a>
       </div>
     </div>
   </div>
 </header>
 
+<!-- MEMBERS ONLY POPUP (HEADER VERSION) -->
+<div class="rsH-membersModal" id="rsHMembersModal" hidden aria-hidden="true">
+  <div class="rsH-membersModal__backdrop" data-close="1"></div>
+
+  <div class="rsH-membersModal__card" role="dialog" aria-modal="true" aria-label="Members only">
+    <div class="rsH-membersModal__badge">Members Only</div>
+    <div class="rsH-membersModal__title">This page is available to chapter members.</div>
+    <div class="rsH-membersModal__text">
+      Please log in to access member pages such as Seeks, Member Events, and Event Submissions.
+    </div>
+
+    <div class="rsH-membersModal__actions">
+      <button class="rsH-membersModal__btn rsH-membersModal__btn--secondary" type="button" data-close="1">
+        Close &amp; Continue
+      </button>
+      <a class="rsH-membersModal__btn rsH-membersModal__btn--primary" href="#" id="rsHModalLoginBtn">
+        Member Log-in
+      </a>
+    </div>
+  </div>
+</div>
+
 <style>
   /* -------- HEADER ONLY VARIABLES (scoped) -------- */
   .rs-header{
     --rs-red:#CF2030;
+    --rs-redDark:#b61b29;
     --rs-ink:#111827;
     --rs-line:#E5E7EB;
     --rs-bg: rgba(255,255,255,.92);
@@ -153,7 +197,7 @@
     top:100%;
     left:0;
     margin-top:8px;
-    min-width:210px;
+    min-width:240px;
     background:#fff;
     border:1px solid var(--rs-line);
     border-radius:14px;
@@ -168,7 +212,7 @@
     position:absolute;
     left:0;
     top:100%;
-    width:240px;
+    width:260px;
     height:18px;
     background:transparent;
     display:none;
@@ -176,7 +220,10 @@
   }
 
   .rs-nav__menu a{
-    display:block;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
     padding:11px 12px;
     border-radius:12px;
     font-weight:600;
@@ -229,7 +276,6 @@
     color:#fff;
   }
 
-  /* subtle sheen animation */
   .rs-btn--primary::after{
     content:"";
     position:absolute;
@@ -315,6 +361,127 @@
     .rs-header{--rs-h:72px}
     .rs-brand__logo{max-width:150px;}
   }
+
+  /* =========================
+     HEADER MODAL (unique classes so nothing overrides it)
+  ========================= */
+  .rsH-membersModal{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+  }
+  .rsH-membersModal[hidden]{display:none !important;}
+
+  .rsH-membersModal__backdrop{
+    position:absolute;
+    inset:0;
+    background: rgba(17,24,39,.62);
+    backdrop-filter: blur(4px);
+  }
+
+  .rsH-membersModal__card{
+    position:relative;
+    width:100%;
+    max-width:420px;
+    border-radius:20px;
+    border:1px solid rgba(229,231,235,.55);
+    background:#fff;
+    box-shadow: 0 22px 56px rgba(0,0,0,.22);
+    padding:18px 18px 16px;
+    text-align:left;
+  }
+
+  .rsH-membersModal__badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 12px;
+    border-radius:999px;
+    font-weight:900;
+    font-size:12px;
+    letter-spacing:.02em;
+    color:#CF2030;
+    background: rgba(207,32,48,.10);
+    border: 1px solid rgba(207,32,48,.18);
+    margin-bottom:12px;
+  }
+
+  .rsH-membersModal__title{
+    font-size:16px;
+    font-weight:900;
+    color:#111827;
+    margin-bottom:8px;
+  }
+
+  .rsH-membersModal__text{
+    font-size:14px;
+    line-height:1.6;
+    color:#4B5563;
+    margin-bottom:14px;
+  }
+
+  .rsH-membersModal__actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:8px;
+  }
+
+  .rsH-membersModal__btn{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:8px !important;
+    padding:11px 14px !important;
+    border-radius:14px !important;
+    font-weight:900 !important;
+    font-size:13px !important;
+    text-decoration:none !important;
+    cursor:pointer !important;
+    border:1px solid #E5E7EB !important;
+    transition:.18s ease !important;
+    flex:1 !important;
+    min-width:160px !important;
+    line-height:1 !important;
+  }
+
+  .rsH-membersModal__btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 12px 22px rgba(0,0,0,.12);
+  }
+
+  .rsH-membersModal__btn--secondary{
+    background:#F3F4F6 !important;
+    color:#111827 !important;
+    border-color:#E5E7EB !important;
+  }
+
+  /* ✅ HARD FIX: anchor login button forced red + white */
+  .rsH-membersModal__btn--primary,
+  a.rsH-membersModal__btn--primary,
+  a#rsHModalLoginBtn{
+    background:#CF2030 !important;
+    color:#ffffff !important;
+    border-color:transparent !important;
+  }
+  .rsH-membersModal__btn--primary:hover,
+  a.rsH-membersModal__btn--primary:hover,
+  a#rsHModalLoginBtn:hover{
+    background:#b61b29 !important;
+    color:#ffffff !important;
+  }
+
+  @media (max-width: 520px){
+    .rsH-membersModal__btn{
+      width:100%;
+      min-width:unset;
+      flex: 1 1 100%;
+    }
+  }
 </style>
 
 <script>
@@ -339,14 +506,56 @@
       }
     });
 
-    // Optional nice behavior: close after tapping a link
     panel.addEventListener('click', (e) => {
       if(e.target && e.target.tagName === 'A') close();
     });
 
-    // Close if resizing back to desktop
     window.addEventListener('resize', () => {
       if(window.innerWidth > 980) close();
+    });
+  })();
+
+  // HEADER MODAL GATING
+  (function(){
+    const modal = document.getElementById('rsHMembersModal');
+    if(!modal) return;
+
+    const loginHref =
+      (document.getElementById('rsMemberLoginLink') && document.getElementById('rsMemberLoginLink').getAttribute('href')) ||
+      (document.getElementById('rsMemberLoginLinkMobile') && document.getElementById('rsMemberLoginLinkMobile').getAttribute('href')) ||
+      '#';
+
+    const modalLoginBtn = document.getElementById('rsHModalLoginBtn');
+    if(modalLoginBtn) modalLoginBtn.setAttribute('href', loginHref);
+
+    modal.setAttribute('hidden','');
+    modal.setAttribute('aria-hidden','true');
+
+    function openModal(){
+      modal.removeAttribute('hidden');
+      modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      modal.setAttribute('hidden','');
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', function(e){
+      const gated = e.target.closest('.rs-membersOnlyLink');
+      if(!gated) return;
+      e.preventDefault();
+      openModal();
+    });
+
+    modal.addEventListener('click', function(e){
+      if(e.target && e.target.getAttribute('data-close') === '1') closeModal();
+    });
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
     });
   })();
 </script>
@@ -682,7 +891,7 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
     font-size:13px;
     color:#4B5563;
   }
-  .rs-resultsCount{ font-weight:900; color:#111827; }
+  .rs-resultsCount{ font-weight:700; color:#111827; }
   .rs-activeFilter{ color:#6B7280; }
 
   /* chips */
@@ -767,7 +976,7 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
     width:44px; height:44px; border-radius:50%;
     overflow:hidden; display:flex; align-items:center; justify-content:center;
     background: rgba(17,24,39,.04);
-    color:#374151; font-weight:900; font-size:14px;
+    color:#374151; font-weight:700; font-size:14px;
     border:1px solid rgba(17,24,39,.10);
     flex:0 0 44px;
   }
@@ -812,7 +1021,7 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
     letter-spacing:.06em;
     color:#6B7280;
     text-transform:uppercase;
-    font-weight:900;
+    font-weight:700;
   }
 
   .rs-seekDetails{
@@ -876,7 +1085,7 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
     display:flex;align-items:center;justify-content:center;
     margin:0 auto 12px;
     font-size:18px;
-    font-weight:900;
+    font-weight:700;
   }
   .rs-emptyTitle{ font-weight:600; font-size:16px; margin-bottom:6px; }
   .rs-emptyText{ color:var(--rs-muted); font-size:13px; line-height:1.6; margin-bottom:14px; }
@@ -1256,8 +1465,11 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
         <h4>Explore</h4>
         <a href="https://kakatbarilea-prog.github.io/bni-homepage/">Home</a>
         <a href="#">Chapter Members</a>
-        <a href="#">Meetings &amp; Events</a>
+
+        <a href="#">Weekly Meetings</a>
+        <a href="#">Upcoming Events</a>
         <a href="#">Gallery</a>
+        <a href="#">News</a>
       </div>
 
       <!-- Members -->
@@ -1265,10 +1477,15 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
         <h4>Members</h4>
         <a href="#">Member Log-in</a>
         <a href="https://kakatbarilea-prog.github.io/bni-chamber-members-directory/">Member Directory</a>
-        <a href="#">Request a 1-to-1</a>
-        <a href="#">Share a Referral</a>
-        <a href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-page/">Submit Seek of the Week</a>
-        <a href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-submissions/">View Seeks of the Week</a>
+        <a href="#" class="rs-membersOnlyLink">Request a 1-to-1</a>
+        <a href="#" class="rs-membersOnlyLink">Share a Referral</a>
+
+        <!-- ✅ ADDED HERE per your request -->
+        <a href="#" class="rs-membersOnlyLink">Member Promotions &amp; Events</a>
+        <a href="#" class="rs-membersOnlyLink">Post an Event</a>
+
+        <a href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-page/" class="rs-membersOnlyLink">Submit Seek of the Week</a>
+        <a href="https://kakatbarilea-prog.github.io/bni-seek-of-the-week-submissions/" class="rs-membersOnlyLink">View Seeks of the Week</a>
       </div>
 
     </div>
@@ -1287,6 +1504,28 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
 
   </div>
 </footer>
+
+<!-- MEMBERS ONLY POPUP (FOOTER VERSION) -->
+<div class="rsF-membersModal" id="rsFMembersModal" hidden aria-hidden="true">
+  <div class="rsF-membersModal__backdrop" data-close="1"></div>
+
+  <div class="rsF-membersModal__card" role="dialog" aria-modal="true" aria-label="Members only">
+    <div class="rsF-membersModal__badge">Members Only</div>
+    <div class="rsF-membersModal__title">This page is available to chapter members.</div>
+    <div class="rsF-membersModal__text">
+      Please log in to access member pages such as Seeks, Member Events, and Event Submissions.
+    </div>
+
+    <div class="rsF-membersModal__actions">
+      <button class="rsF-membersModal__btn rsF-membersModal__btn--secondary" type="button" data-close="1">
+        Close &amp; Continue
+      </button>
+      <a class="rsF-membersModal__btn rsF-membersModal__btn--primary" href="#" id="rsFModalLoginBtn">
+        Member Log-in
+      </a>
+    </div>
+  </div>
+</div>
 
 <style>
   /* -------- FOOTER ONLY VARIABLES (scoped) -------- */
@@ -1325,7 +1564,6 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
     align-items:start;
   }
 
-  /* Prevent logo stretch */
   .rs-footer__logo{
     height:34px;
     width:auto;
@@ -1412,7 +1650,6 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
   }
   .rs-footer__sep{opacity:.5}
 
-  /* Mobile polish */
   @media (max-width: 860px){
     .rs-footer__grid{
       grid-template-columns: 1fr 1fr;
@@ -1432,7 +1669,6 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
       gap:18px;
     }
 
-    /* Make columns feel like sections on mobile */
     .rs-footer__col{
       padding-top:10px;
       border-top:1px solid rgba(255,255,255,.10);
@@ -1450,8 +1686,155 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
       gap:8px;
     }
   }
+
+  /* =========================
+     FOOTER MODAL (unique classes)
+  ========================= */
+  .rsF-membersModal{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+  }
+  .rsF-membersModal[hidden]{display:none !important;}
+
+  .rsF-membersModal__backdrop{
+    position:absolute;
+    inset:0;
+    background: rgba(17,24,39,.62);
+    backdrop-filter: blur(4px);
+  }
+
+  .rsF-membersModal__card{
+    position:relative;
+    width:100%;
+    max-width:420px;
+    border-radius:20px;
+    border:1px solid rgba(229,231,235,.55);
+    background:#fff;
+    box-shadow: 0 22px 56px rgba(0,0,0,.22);
+    padding:18px 18px 16px;
+    text-align:left;
+  }
+
+  .rsF-membersModal__badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 12px;
+    border-radius:999px;
+    font-weight:900;
+    font-size:12px;
+    letter-spacing:.02em;
+    color:#CF2030;
+    background: rgba(207,32,48,.10);
+    border: 1px solid rgba(207,32,48,.18);
+    margin-bottom:12px;
+  }
+
+  .rsF-membersModal__title{
+    font-size:16px;
+    font-weight:900;
+    color:#111827;
+    margin-bottom:8px;
+  }
+
+  .rsF-membersModal__text{
+    font-size:14px;
+    line-height:1.6;
+    color:#4B5563;
+    margin-bottom:14px;
+  }
+
+  .rsF-membersModal__actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:8px;
+  }
+
+  .rsF-membersModal__btn{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:8px !important;
+    padding:11px 14px !important;
+    border-radius:14px !important;
+    font-weight:900 !important;
+    font-size:13px !important;
+    text-decoration:none !important;
+    cursor:pointer !important;
+    border:1px solid #E5E7EB !important;
+    transition:.18s ease !important;
+    flex:1 !important;
+    min-width:160px !important;
+    line-height:1 !important;
+  }
+
+  .rsF-membersModal__btn--secondary{
+    background:#F3F4F6 !important;
+    color:#111827 !important;
+    border-color:#E5E7EB !important;
+  }
+
+  /* ✅ HARD FIX: anchor login button forced red + white */
+  .rsF-membersModal__btn--primary,
+  a.rsF-membersModal__btn--primary,
+  a#rsFModalLoginBtn{
+    background:#CF2030 !important;
+    color:#ffffff !important;
+    border-color:transparent !important;
+  }
+  .rsF-membersModal__btn--primary:hover,
+  a.rsF-membersModal__btn--primary:hover,
+  a#rsFModalLoginBtn:hover{
+    background:#b61b29 !important;
+    color:#ffffff !important;
+  }
 </style>
 
 <script>
   document.getElementById("rsFooterYear").textContent = new Date().getFullYear();
+
+  // FOOTER MODAL GATING (self-contained)
+  (function(){
+    const modal = document.getElementById('rsFMembersModal');
+    if(!modal) return;
+
+    const modalLoginBtn = document.getElementById('rsFModalLoginBtn');
+    if(modalLoginBtn) modalLoginBtn.setAttribute('href', '#');
+
+    modal.setAttribute('hidden','');
+    modal.setAttribute('aria-hidden','true');
+
+    function openModal(){
+      modal.removeAttribute('hidden');
+      modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      modal.setAttribute('hidden','');
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', function(e){
+      const gated = e.target.closest('.rs-membersOnlyLink');
+      if(!gated) return;
+      e.preventDefault();
+      openModal();
+    });
+
+    modal.addEventListener('click', function(e){
+      if(e.target && e.target.getAttribute('data-close') === '1') closeModal();
+    });
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
+    });
+  })();
 </script>
