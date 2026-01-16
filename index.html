@@ -485,40 +485,11 @@
 </style>
 
 <script>
-  /* Minimal / necessary only: mobile hamburger open/close */
-  (function(){
-    const btn = document.getElementById('rsMenuBtn');
-    const panel = document.getElementById('rsMobilePanel');
-    if(!btn || !panel) return;
-
-    function close(){
-      panel.setAttribute('hidden','');
-      btn.setAttribute('aria-expanded','false');
-    }
-
-    btn.addEventListener('click', () => {
-      const isHidden = panel.hasAttribute('hidden');
-      if(isHidden){
-        panel.removeAttribute('hidden');
-        btn.setAttribute('aria-expanded','true');
-      }else{
-        close();
-      }
-    });
-
-    panel.addEventListener('click', (e) => {
-      if(e.target && e.target.tagName === 'A') close();
-    });
-
-    window.addEventListener('resize', () => {
-      if(window.innerWidth > 980) close();
-    });
-  })();
-
-  // HEADER MODAL GATING
+  // HEADER MODAL GATING (scoped to header only)
   (function(){
     const modal = document.getElementById('rsHMembersModal');
-    if(!modal) return;
+    const header = document.querySelector('.rs-header');
+    if(!modal || !header) return;
 
     const loginHref =
       (document.getElementById('rsMemberLoginLink') && document.getElementById('rsMemberLoginLink').getAttribute('href')) ||
@@ -543,15 +514,21 @@
       document.body.style.overflow = '';
     }
 
-    document.addEventListener('click', function(e){
+    // ✅ ONLY intercept gated clicks inside HEADER
+    header.addEventListener('click', function(e){
       const gated = e.target.closest('.rs-membersOnlyLink');
       if(!gated) return;
       e.preventDefault();
       openModal();
     });
 
+    // ✅ Close: backdrop or Close button
     modal.addEventListener('click', function(e){
-      if(e.target && e.target.getAttribute('data-close') === '1') closeModal();
+      if(e.target && e.target.getAttribute('data-close') === '1'){
+        e.preventDefault();
+        e.stopPropagation(); // ✅ IMPORTANT: stop bubble so footer script doesn't react
+        closeModal();
+      }
     });
 
     document.addEventListener('keydown', function(e){
@@ -559,6 +536,7 @@
     });
   })();
 </script>
+
 
 
 
@@ -1437,7 +1415,6 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
   })();
 </script>
 
-
 <!--end-->
 
 
@@ -1797,12 +1774,11 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
 </style>
 
 <script>
-  document.getElementById("rsFooterYear").textContent = new Date().getFullYear();
-
-  // FOOTER MODAL GATING (self-contained)
+  // FOOTER MODAL GATING (scoped to footer only)
   (function(){
     const modal = document.getElementById('rsFMembersModal');
-    if(!modal) return;
+    const footer = document.querySelector('.rs-footer');
+    if(!modal || !footer) return;
 
     const modalLoginBtn = document.getElementById('rsFModalLoginBtn');
     if(modalLoginBtn) modalLoginBtn.setAttribute('href', '#');
@@ -1822,15 +1798,21 @@ BNI ROCK SOLID — SEEKS OF THE WEEK (DIRECTORY-MATCHED UI)
       document.body.style.overflow = '';
     }
 
-    document.addEventListener('click', function(e){
+    // ✅ ONLY intercept gated clicks inside FOOTER
+    footer.addEventListener('click', function(e){
       const gated = e.target.closest('.rs-membersOnlyLink');
       if(!gated) return;
       e.preventDefault();
       openModal();
     });
 
+    // ✅ Close: backdrop or Close button
     modal.addEventListener('click', function(e){
-      if(e.target && e.target.getAttribute('data-close') === '1') closeModal();
+      if(e.target && e.target.getAttribute('data-close') === '1'){
+        e.preventDefault();
+        e.stopPropagation(); // ✅ IMPORTANT: stop bubble so header script doesn't react
+        closeModal();
+      }
     });
 
     document.addEventListener('keydown', function(e){
